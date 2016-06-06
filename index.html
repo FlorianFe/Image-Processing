@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Bildverarbeitung</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="res/style.css">
+  </head>
+  <body>
+    <div id="source-img"></div>
+    <div id="result-img"></div>
+    <div>
+      <input id="img-upload" type="file"></input>
+    </div>
+
+    <script src="http://requirejs.org/docs/release/2.2.0/minified/require.js" data-main="js/Main.js"></script>
+
+    <script src="js/process graph/ProcessGraph.js"></script>
+    <script src="js/process graph/ProcessGraphEdge.js"></script>
+    <script src="js/process graph/ProcessGraphNode.js"></script>
+
+    <script src="js/process graph/process graph nodes/ImageLoadingNode.js"></script>
+    <script src="js/process graph/process graph nodes/BoxFilterNode.js"></script>
+
+    <script src="js/parsers/ImageToColorMapParser.js"></script>
+    <script src="js/parsers/ColorMapToImageParser.js"></script>
+
+    <script src="js/operands/Color.js"></script>
+    <script src="js/operands/ColorMap.js"></script>
+    <script src="js/operands/RGBColor.js"></script>
+
+    <script src="js/operators/filters/Filter.js"></script>
+
+    <script src="js/operators/filters/linear/LinearFilter.js"></script>
+    <script src="js/operators/filters/linear/FilterMask.js"></script>
+    <script src="js/operators/filters/linear/SobelXFilter.js"></script>
+    <script src="js/operators/filters/linear/SobelYFilter.js"></script>
+    <script src="js/operators/filters/linear/BoxFilter.js"></script>
+    <script src="js/operators/filters/linear/GaussFilter.js"></script>
+    <script src="js/operators/filters/linear/LaplacianOfGaussianFilter.js"></script>
+
+    <script src="js/operators/filters/morphologic/MorphologicFilter.js"></script>
+    <script src="js/operators/filters/morphologic/StructuringElement.js"></script>
+    <script src="js/operators/filters/morphologic/Erosion.js"></script>
+    <script src="js/operators/filters/morphologic/Dilation.js"></script>
+
+    <script src="js/operators/filters/other/InversionFilter.js"></script>
+
+    <script src="js/operators/other/Addition.js"></script>
+    <script src="js/operators/other/Subtraction.js"></script>
+  </body>
+</html>
