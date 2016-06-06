@@ -11,7 +11,6 @@ var BoxFilter = (function (_super) {
             [1, 1, 1],
             [1, 1, 1]
         ]);
-        //
         mask.normalize();
         _super.call(this, mask);
     }

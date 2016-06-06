@@ -9,7 +9,6 @@ class BoxFilter extends LinearFilter
       [1, 1, 1],
       [1, 1, 1]
     ]);
-//
     mask.normalize();
     super(mask);
   }
