@@ -1,5 +1,9 @@
+import {bootstrap} from '../node_modules/angular2/platform/browser';
+import {MainComponent} from './presentation/MainComponent';
 
+bootstrap(MainComponent);
 
+/*
 document.getElementById("img-upload").addEventListener("change", function()
 {
   var reader = new FileReader();
@@ -12,7 +16,7 @@ document.getElementById("img-upload").addEventListener("change", function()
     /*
     document.getElementById("source-img").innerHTML = "";
     document.getElementById("source-img").appendChild(image);
-    */
+
 
     image.addEventListener("load", function ()
     {
@@ -57,11 +61,11 @@ document.getElementById("img-upload").addEventListener("change", function()
         document.getElementById("result-img").innerHTML = "";
         document.getElementById("result-img").appendChild(image);
       });
-      */
+
     });
 
     image.src = reader.result;
   });
 
   reader.readAsDataURL(this.files[0]);
-});
+});*/
