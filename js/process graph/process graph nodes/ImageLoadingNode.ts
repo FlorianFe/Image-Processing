@@ -11,11 +11,17 @@ class ImageLoadingNode extends ProcessGraphNode
 
   public display()
   {
-    return ColorMapToImageParser.parse(this.colorMap);
+    let image = ColorMapToImageParser.parse(this.colorMap);
+    image.width = 150;
+    return image;
   }
 
   protected calculate()
   {
     this.setValueToOutputPort(0, this.colorMap);
+
+    let image = ColorMapToImageParser.parse(this.colorMap);
+    image.width = 150;
+    this.displayElement = image;
   }
 }

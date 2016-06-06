@@ -8,3 +8,6 @@ Gruntfile.js
 tsconfig.json
 *.js
 *.map
+package.json
+README.md
+typings.json

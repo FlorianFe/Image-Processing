@@ -5,6 +5,7 @@ var ProcessGraphNode = (function () {
         this.output = this.createArrayWithNullValues(numberOutputPorts);
         this.key = numberInputPorts;
         this.finished = false;
+        this.displayElement = null;
     }
     ProcessGraphNode.prototype.createArrayWithNullValues = function (length) {
         var array = new Array(length);

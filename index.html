@@ -4,18 +4,25 @@
     <title>Bildverarbeitung</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="res/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   </head>
   <body>
     <app></app>
 
+    <!-- 0. Load Libraries -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     <!-- 1. Load libraries of model and business logic -->
-    
+
     <script src="js/process graph/ProcessGraph.js"></script>
     <script src="js/process graph/ProcessGraphEdge.js"></script>
     <script src="js/process graph/ProcessGraphNode.js"></script>
 
     <script src="js/process graph/process graph nodes/ImageLoadingNode.js"></script>
     <script src="js/process graph/process graph nodes/BoxFilterNode.js"></script>
+    <script src="js/process graph/process graph nodes/SobelYFilterNode.js"></script>
 
     <script src="js/parsers/ImageToColorMapParser.js"></script>
     <script src="js/parsers/ColorMapToImageParser.js"></script>

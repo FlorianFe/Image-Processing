@@ -7,6 +7,9 @@ abstract class ProcessGraphNode
   private finished : boolean;
   private key : number;
 
+  protected displayElement : HTMLElement;
+
+
   constructor(name : string, numberInputPorts : number, numberOutputPorts : number)
   {
     this.name = name;
@@ -14,6 +17,7 @@ abstract class ProcessGraphNode
     this.output = this.createArrayWithNullValues(numberOutputPorts);
     this.key = numberInputPorts;
     this.finished = false;
+    this.displayElement = null;
   }
 
   private createArrayWithNullValues(length : number)

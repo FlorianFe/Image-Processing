@@ -3,13 +3,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var BoxFilterNode = (function (_super) {
-    __extends(BoxFilterNode, _super);
-    function BoxFilterNode() {
-        _super.call(this, "Box Filter", 1, 1);
+var SobelYNode = (function (_super) {
+    __extends(SobelYNode, _super);
+    function SobelYNode() {
+        _super.call(this, "Sobel-Y Filter", 0, 1);
         this.resultColorMap = null;
     }
-    BoxFilterNode.prototype.display = function () {
+    SobelYNode.prototype.display = function () {
         if (this.resultColorMap !== null) {
             var image = ColorMapToImageParser.parse(this.resultColorMap);
             image.width = 200;
@@ -19,9 +19,9 @@ var BoxFilterNode = (function (_super) {
             return new HTMLElement();
         }
     };
-    BoxFilterNode.prototype.calculate = function () {
+    SobelYNode.prototype.calculate = function () {
         var sourceColorMap = this.getValueFromInputPort(0);
-        var resultColorMap = (new BoxFilter()).convolute(sourceColorMap);
+        var resultColorMap = (new SobelYFilter()).convolute(sourceColorMap);
         this.resultColorMap = resultColorMap;
         this.setValueToOutputPort(0, resultColorMap);
         console.log(resultColorMap);
@@ -30,6 +30,6 @@ var BoxFilterNode = (function (_super) {
         image.width = 200;
         this.displayElement = image;
     };
-    return BoxFilterNode;
+    return SobelYNode;
 }(ProcessGraphNode));
-//# sourceMappingURL=BoxFilterNode.js.map
+//# sourceMappingURL=SobelYFilter.js.map

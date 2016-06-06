@@ -1,4 +1,12 @@
-div
+*
 {
-  float: left;
+  margin: 0px;
+  padding: 0px;
+}
+
+body
+{
+  background-image: url("http://aareinformatik.ch/fileadmin/tutorials/drag-and-drop/img/bg.png");
+  left: 0px;
+  top: 0px:
 }

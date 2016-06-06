@@ -1,11 +1,11 @@
 
-class BoxFilterNode extends ProcessGraphNode
+class SobelYFilterNode extends ProcessGraphNode
 {
   private resultColorMap : ColorMap;
 
   constructor()
   {
-    super("Box Filter", 1, 1);
+    super("Sobel-Y Filter", 1, 1);
     this.resultColorMap = null;
   }
 
@@ -26,7 +26,7 @@ class BoxFilterNode extends ProcessGraphNode
   protected calculate()
   {
     let sourceColorMap = this.getValueFromInputPort(0);
-    let resultColorMap = (new BoxFilter()).convolute(sourceColorMap);
+    let resultColorMap = (new SobelYFilter()).convolute(sourceColorMap);
     this.resultColorMap = resultColorMap;
     this.setValueToOutputPort(0, resultColorMap);
     console.log(resultColorMap);
