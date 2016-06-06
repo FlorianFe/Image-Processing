@@ -5,7 +5,7 @@ var ProcessGraphEdge = (function () {
     }
     ProcessGraphEdge.prototype.setValue = function (value) {
         this.value = value;
-        this.destination.decrementHeapKey();
+        this.destination.decrementKey();
     };
     ProcessGraphEdge.prototype.getValue = function () {
         return this.value;

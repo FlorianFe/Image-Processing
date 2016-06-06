@@ -46,7 +46,7 @@ var ProcessGraphNode = (function () {
     ProcessGraphNode.prototype.isReady = function () {
         return (this.key === 0 && !this.finished);
     };
-    ProcessGraphNode.prototype.decrementHeapKey = function () {
+    ProcessGraphNode.prototype.decrementKey = function () {
         this.key--;
         if (this.key === 0) {
             this.execute();

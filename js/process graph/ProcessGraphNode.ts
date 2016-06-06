@@ -79,7 +79,7 @@ abstract class ProcessGraphNode
     return (this.key === 0 && !this.finished);
   }
 
-  public decrementHeapKey()
+  public decrementKey()
   {
     this.key--;
 

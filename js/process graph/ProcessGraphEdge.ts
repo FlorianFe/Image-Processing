@@ -13,7 +13,7 @@ class ProcessGraphEdge
   public setValue(value)
   {
     this.value = value;
-    this.destination.decrementHeapKey();
+    this.destination.decrementKey();
   }
 
   public getValue()
