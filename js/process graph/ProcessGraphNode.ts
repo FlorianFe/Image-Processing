@@ -32,6 +32,16 @@ abstract class ProcessGraphNode
     return array;
   }
 
+  public getOutput(index : number)
+  {
+    return this.output[index];
+  }
+  
+  public getOutputSize()
+  {
+    return this.output.length;
+  }
+
   public execute()
   {
     // use input ports for calculations...

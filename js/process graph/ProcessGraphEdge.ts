@@ -20,4 +20,9 @@ class ProcessGraphEdge
   {
     return this.value;
   }
+
+  public getDestination()
+  {
+    return this.destination;
+  }
 }

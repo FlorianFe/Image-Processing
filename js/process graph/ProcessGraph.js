@@ -11,6 +11,9 @@ var ProcessGraph = (function () {
             }
         }
     };
+    ProcessGraph.prototype.getNodes = function () {
+        return this.nodeList;
+    };
     ProcessGraph.prototype.addNode = function (node) {
         this.nodeList.push(node);
     };

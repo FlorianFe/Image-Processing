@@ -1,4 +1,4 @@
-System.register(['angular2/core', './ProcessGraphNodeComponent'], function(exports_1, context_1) {
+System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraphEdgesComponent'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './ProcessGraphNodeComponent'], function(expor
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ProcessGraphNodeComponent_1;
+    var core_1, ProcessGraphNodeComponent_1, ProcessGraphEdgesComponent_1;
     var ProcessGraphComponent;
     return {
         setters:[
@@ -19,10 +19,14 @@ System.register(['angular2/core', './ProcessGraphNodeComponent'], function(expor
             },
             function (ProcessGraphNodeComponent_1_1) {
                 ProcessGraphNodeComponent_1 = ProcessGraphNodeComponent_1_1;
+            },
+            function (ProcessGraphEdgesComponent_1_1) {
+                ProcessGraphEdgesComponent_1 = ProcessGraphEdgesComponent_1_1;
             }],
         execute: function() {
             ProcessGraphComponent = (function () {
                 function ProcessGraphComponent() {
+                    this.updateEvent = new core_1.EventEmitter();
                     this.processGraph = new ProcessGraph();
                     var image = new Image();
                     image.src = "res/img/dices.gif";
@@ -31,20 +35,29 @@ System.register(['angular2/core', './ProcessGraphNodeComponent'], function(expor
                         that.processGraph.addNode(new ImageLoadingNode(image));
                         that.processGraph.addNode(new BoxFilterNode());
                         that.processGraph.addNode(new SobelYFilterNode());
-                        that.processGraph.connectNodes(0, 1, 0, 0);
-                        that.processGraph.connectNodes(1, 2, 0, 0);
-                        that.processGraph.execute();
+                        //that.processGraph.connectNodes(0, 1, 0, 0);
+                        //that.processGraph.connectNodes(1, 2, 0, 0);
+                        //that.processGraph.execute();
                     };
+                    this.nodePositions = [];
                 }
+                ProcessGraphComponent.prototype.play = function () {
+                    this.processGraph.execute();
+                };
+                ProcessGraphComponent.prototype.addNode = function () {
+                    this.processGraph.addNode(new BoxFilterNode());
+                };
                 ProcessGraphComponent.prototype.addImageLoadingNode = function (image) {
                     this.processGraph.addNode(new ImageLoadingNode(image));
+                };
+                ProcessGraphComponent.prototype.onUpdate = function () {
                 };
                 ProcessGraphComponent = __decorate([
                     core_1.Component({
                         selector: 'process-graph',
-                        directives: [ProcessGraphNodeComponent_1.ProcessGraphNodeComponent],
+                        directives: [ProcessGraphNodeComponent_1.ProcessGraphNodeComponent, ProcessGraphEdgesComponent_1.ProcessGraphEdgesComponent],
                         providers: [],
-                        template: "\n        <process-graph-node\n          *ngFor=\"#node of processGraph.nodeList\"\n          [process-graph-node]=\"node\" ></process-graph-node>\n    "
+                        template: "\n\n      <process-graph-edges\n        [process-graph]=\"processGraph\"\n        [node-positions]=\"nodePositions\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-edges>\n\n      <process-graph-node\n        *ngFor=\"#node of processGraph.nodeList; #index = index\"\n        [process-graph-node]=\"node\"\n        [node-positions]=\"nodePositions\"\n        [node-index]=\"index\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-node>\n\n        <button style=\"position: absolute; right: 20px;\" (click)=\"play($event)\">play</button>\n        <button style=\"position: absolute; right: 50px;\" (click)=\"addNode($event)\">Knoten</button>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], ProcessGraphComponent);

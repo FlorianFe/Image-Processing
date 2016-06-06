@@ -10,6 +10,9 @@ var ProcessGraphEdge = (function () {
     ProcessGraphEdge.prototype.getValue = function () {
         return this.value;
     };
+    ProcessGraphEdge.prototype.getDestination = function () {
+        return this.destination;
+    };
     return ProcessGraphEdge;
 }());
 //# sourceMappingURL=ProcessGraphEdge.js.map

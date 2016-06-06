@@ -21,6 +21,11 @@ class ProcessGraph
     }
   }
 
+  public getNodes()
+  {
+    return this.nodeList;
+  }
+
   public addNode(node : ProcessGraphNode)
   {
     this.nodeList.push(node);
