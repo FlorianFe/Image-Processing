@@ -3,7 +3,7 @@ var ProcessGraphNode = (function () {
         this.name = name;
         this.input = this.createArrayWithNullValues(numberInputPorts);
         this.output = this.createArrayWithNullValues(numberOutputPorts);
-        this.heapKey = numberInputPorts;
+        this.key = numberInputPorts;
         this.finished = false;
     }
     ProcessGraphNode.prototype.createArrayWithNullValues = function (length) {
@@ -44,11 +44,11 @@ var ProcessGraphNode = (function () {
         throw "Fehler: Input Port ist leer!";
     };
     ProcessGraphNode.prototype.isReady = function () {
-        return (this.heapKey === 0 && !this.finished);
+        return (this.key === 0 && !this.finished);
     };
     ProcessGraphNode.prototype.decrementHeapKey = function () {
-        this.heapKey--;
-        if (this.heapKey === 0) {
+        this.key--;
+        if (this.key === 0) {
             this.execute();
         }
     };

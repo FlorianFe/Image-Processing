@@ -5,14 +5,14 @@ abstract class ProcessGraphNode
   private input : Array<any>;
   private output : Array<any>;
   private finished : boolean;
-  private heapKey : number;
+  private key : number;
 
   constructor(name : string, numberInputPorts : number, numberOutputPorts : number)
   {
     this.name = name;
     this.input = this.createArrayWithNullValues(numberInputPorts);
     this.output = this.createArrayWithNullValues(numberOutputPorts);
-    this.heapKey = numberInputPorts;
+    this.key = numberInputPorts;
     this.finished = false;
   }
 
@@ -76,14 +76,14 @@ abstract class ProcessGraphNode
 
   public isReady()
   {
-    return (this.heapKey === 0 && !this.finished);
+    return (this.key === 0 && !this.finished);
   }
 
   public decrementHeapKey()
   {
-    this.heapKey--;
+    this.key--;
 
-    if(this.heapKey === 0)
+    if(this.key === 0)
     {
       this.execute();
     }
