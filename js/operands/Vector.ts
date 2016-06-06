@@ -1,6 +1,4 @@
 
-
-
 class Vector
 {
   private values : Array<number>
