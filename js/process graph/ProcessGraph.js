@@ -1,3 +1,4 @@
+//import {ProcessGraphNode} from './Process
 var ProcessGraph = (function () {
     function ProcessGraph() {
         this.nodeList = [];

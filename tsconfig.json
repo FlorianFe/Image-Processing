@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "amd",
-    "moduleResolution": "classic",
+    "module": "system",
+    "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -10,5 +10,8 @@
     "noImplicitAny": false
   },
   "exclude": [
+    "node_modules",
+    "typings/main",
+    "typings/main.d.ts"
   ]
 }

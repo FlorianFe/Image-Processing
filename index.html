@@ -8,14 +8,8 @@
   <body>
     <app></app>
 
-    <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
-    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="node_modules/rxjs/bundles/Rx.js"></script>
-    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
-
-    <script src="http://requirejs.org/docs/release/2.2.0/minified/require.js" data-main="js/Main.js"></script>
-
+    <!-- 1. Load libraries of model and business logic -->
+    
     <script src="js/process graph/ProcessGraph.js"></script>
     <script src="js/process graph/ProcessGraphEdge.js"></script>
     <script src="js/process graph/ProcessGraphNode.js"></script>
@@ -49,5 +43,34 @@
 
     <script src="js/operators/other/Addition.js"></script>
     <script src="js/operators/other/Subtraction.js"></script>
+
+    <!-- 2. Load libraries for Angular 2 -->
+    <!-- IE required polyfills, in this exact order -->
+    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
+    <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+
+    <!--<script src="js/presentation/MainComponent.js"></script>-->
+
+    <!-- 3. Configure SystemJS -->
+    <script>
+      System.config(
+      {
+        packages:
+        {
+          js:
+          {
+            format: 'register',
+            defaultExtension: 'js'
+          }
+        }
+      });
+
+      System.import('js/Main').then(null, console.error.bind(console));
+    </script>
   </body>
 </html>

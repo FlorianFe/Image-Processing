@@ -1,7 +1,8 @@
-import {bootstrap} from '../node_modules/angular2/platform/browser';
-import {MainComponent} from './presentation/MainComponent';
+import {bootstrap} from 'angular2/platform/browser';
+import {MainComponent} from './presentation/components/MainComponent';
 
 bootstrap(MainComponent);
+
 
 /*
 document.getElementById("img-upload").addEventListener("change", function()
