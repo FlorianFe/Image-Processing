@@ -32,6 +32,20 @@ declare var $ : any;
         <line
           [attr.x1]="edge.sourceNodePosition.x + 200"
           [attr.y1]="edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex"
+          [attr.x2]="edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)"
+          [attr.y2]="edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex"
+          style="stroke:rgb(55,55,55);stroke-width:2"/>
+
+        <line
+          [attr.x1]="edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)"
+          [attr.y1]="edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex"
+          [attr.x2]="edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)"
+          [attr.y2]="edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex"
+          style="stroke:rgb(55,55,55);stroke-width:2"/>
+
+        <line
+          [attr.x1]="edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)"
+          [attr.y1]="edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex"
           [attr.x2]="edge.destinationNodePosition.x + 0"
           [attr.y2]="edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex"
           style="stroke:rgb(55,55,55);stroke-width:2"/>
@@ -75,6 +89,7 @@ export class ProcessGraphEdgesComponent
   constructor()
   {
     this.lastOutputPortClicked = null;
+    this.edges = [];
   }
 
   ngAfterViewInit()
@@ -140,6 +155,16 @@ export class ProcessGraphEdgesComponent
       this.processGraph.connectNodes(outputNodeIndex, inputNodeIndex, outputPortIndex, inputPortIndex);
       this.lastOutputPortClicked = null;
       this.updateEvent.emit({});
+
+      this.processGraph.getNode(outputNodeIndex).reset();
+      this.processGraph.getNode(inputNodeIndex).reset();
+
+      let self = this;
+      $('#loading').fadeIn("slow", function()
+      {
+        self.processGraph.execute();
+        $(this).fadeOut(3000);
+      });
     }
   }
 

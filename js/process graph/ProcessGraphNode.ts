@@ -32,6 +32,12 @@ abstract class ProcessGraphNode
     return array;
   }
 
+  public reset()
+  {
+    this.finished = false;
+    //this.key = this.input.length;
+  }
+
   public getOutput(index : number)
   {
     return this.output[index];
@@ -99,6 +105,8 @@ abstract class ProcessGraphNode
   public decrementKey()
   {
     this.key--;
+
+    console.assert(this.key >= 0);
 
     if(this.key === 0)
     {

@@ -35,9 +35,7 @@ System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraph
                     var that = this;
                     image.onload = function () {
                         that.processGraph.addNode(new ImageLoadingNode(image));
-                        //that.processGraph.connectNodes(0, 1, 0, 0);
-                        //that.processGraph.connectNodes(1, 2, 0, 0);
-                        //that.processGraph.execute();
+                        that.processGraph.execute();
                     };
                     this.nodePositions = [];
                 }
@@ -61,18 +59,21 @@ System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraph
                 ProcessGraphComponent.prototype.addNode = function () {
                     var nodeClass = this.availableNodeClassList[this.selectedNodeClassIndex];
                     this.processGraph.addNode(new nodeClass());
+                    var self = this;
+                    $('#loading').fadeIn("slow", function () {
+                        self.processGraph.execute();
+                        $('#loading').fadeOut(3000);
+                    });
                 };
                 ProcessGraphComponent.prototype.openModal = function () {
                     $('#adding-node-modal').modal();
-                };
-                ProcessGraphComponent.prototype.closeModal = function () {
                 };
                 ProcessGraphComponent = __decorate([
                     core_1.Component({
                         selector: 'process-graph',
                         directives: [ProcessGraphNodeComponent_1.ProcessGraphNodeComponent, ProcessGraphEdgesComponent_1.ProcessGraphEdgesComponent],
                         providers: [],
-                        template: "\n\n      <process-graph-edges\n        [process-graph]=\"processGraph\"\n        [node-positions]=\"nodePositions\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-edges>\n\n      <process-graph-node\n        *ngFor=\"#node of processGraph.nodeList; #index = index\"\n        [process-graph-node]=\"node\"\n        [node-positions]=\"nodePositions\"\n        [node-index]=\"index\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-node>\n\n      <div style=\"position: absolute; right: 20px;\">\n        <span (click)=\"play($event)\" style=\"cursor: pointer;\">\n          <i class=\"fa fa-play-circle fa-3x\" aria-hidden=\"true\"></i>\n        </span>\n\n        <span (click)=\"openModal($event)\" style=\"cursor: pointer;\">\n          <i class=\"fa fa-plus-circle fa-3x\" aria-hidden=\"true\"></i>\n        </span>\n      </div>\n\n      <div class=\"modal fade\" id=\"adding-node-modal\" role=\"dialog\">\n        <div class=\"modal-dialog\">\n\n          <!-- Modal content-->\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n              <h4 class=\"modal-title\">Neuen Knoten hinzuf\u00FCgen</h4>\n            </div>\n            <div class=\"modal-body\">\n              <div class=\"form-group\">\n                <label for=\"sel1\">Kathegorie</label>\n                <select [(ngModel)]=\"selectedNodeClassIndex\" class=\"form-control\" id=\"sel1\">\n                  <option *ngFor=\"#nodeClass of availableNodeClassList; #index = index\"\n                    [attr.value]=\"index\">\n                    {{nodeClass.name}}\n                  </option>\n                </select>\n              </div>\n            </div>\n            <div class=\"modal-footer\">\n              <button type=\"button\" class=\"btn btn-default\" (click)=\"closeModal()\" data-dismiss=\"modal\">Schlie\u00DFen</button>\n              <button type=\"button\" class=\"btn btn-success\" (click)=\"addNode()\" data-dismiss=\"modal\">Hinzuf\u00FCgen</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    "
+                        template: "\n\n      <div id=\"loading\" style=\"position: absolute; display: none;\">\n        <i class=\"fa fa-spinner fa-spin fa-3x fa-fw\"></i>\n      </div>\n\n      <process-graph-edges\n        [process-graph]=\"processGraph\"\n        [node-positions]=\"nodePositions\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-edges>\n\n      <process-graph-node\n        *ngFor=\"#node of processGraph.nodeList; #index = index\"\n        [process-graph-node]=\"node\"\n        [node-positions]=\"nodePositions\"\n        [node-index]=\"index\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-node>\n\n      <div style=\"position: absolute; right: 20px;\">\n        <span (click)=\"openModal($event)\" style=\"cursor: pointer;\">\n          <i class=\"fa fa-plus-circle fa-3x\" aria-hidden=\"true\"></i>\n        </span>\n      </div>\n\n      <div class=\"modal fade\" id=\"adding-node-modal\" role=\"dialog\">\n        <div class=\"modal-dialog\">\n\n          <!-- Modal content-->\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n              <h4 class=\"modal-title\">Neuen Knoten hinzuf\u00FCgen</h4>\n            </div>\n            <div class=\"modal-body\">\n              <div class=\"form-group\">\n                <label for=\"sel1\">Kathegorie</label>\n                <select [(ngModel)]=\"selectedNodeClassIndex\" class=\"form-control\" id=\"sel1\">\n                  <option *ngFor=\"#nodeClass of availableNodeClassList; #index = index\"\n                    [attr.value]=\"index\">\n                    {{nodeClass.name}}\n                  </option>\n                </select>\n              </div>\n            </div>\n            <div class=\"modal-footer\">\n              <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Schlie\u00DFen</button>\n              <button type=\"button\" class=\"btn btn-success\" (click)=\"addNode()\" data-dismiss=\"modal\">Hinzuf\u00FCgen</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], ProcessGraphComponent);

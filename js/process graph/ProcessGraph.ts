@@ -11,12 +11,22 @@ class ProcessGraph
 
   public execute()
   {
+    /*for(let i=0; i<this.nodeList.length; i++)
+    {
+      let node = this.nodeList[i];
+      node.reset();
+    }*/
+
     for(let i=0; i<this.nodeList.length; i++)
     {
       let node = this.nodeList[i];
       if(node.isReady())
       {
         node.execute();
+      }
+      else
+      {
+        console.log("node not ready");
       }
     }
   }

@@ -14,6 +14,10 @@ var ProcessGraphNode = (function () {
         }
         return array;
     };
+    ProcessGraphNode.prototype.reset = function () {
+        this.finished = false;
+        //this.key = this.input.length;
+    };
     ProcessGraphNode.prototype.getOutput = function (index) {
         return this.output[index];
     };
@@ -57,6 +61,7 @@ var ProcessGraphNode = (function () {
     };
     ProcessGraphNode.prototype.decrementKey = function () {
         this.key--;
+        console.assert(this.key >= 0);
         if (this.key === 0) {
             this.execute();
         }

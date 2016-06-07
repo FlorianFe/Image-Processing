@@ -10,6 +10,10 @@ declare var $ : any;
     providers: [],
     template: `
 
+      <div id="loading" style="position: absolute; display: none;">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      </div>
+
       <process-graph-edges
         [process-graph]="processGraph"
         [node-positions]="nodePositions"
@@ -25,10 +29,6 @@ declare var $ : any;
         ></process-graph-node>
 
       <div style="position: absolute; right: 20px;">
-        <span (click)="play($event)" style="cursor: pointer;">
-          <i class="fa fa-play-circle fa-3x" aria-hidden="true"></i>
-        </span>
-
         <span (click)="openModal($event)" style="cursor: pointer;">
           <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
         </span>
@@ -55,7 +55,7 @@ declare var $ : any;
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" (click)="closeModal()" data-dismiss="modal">Schließen</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
               <button type="button" class="btn btn-success" (click)="addNode()" data-dismiss="modal">Hinzufügen</button>
             </div>
           </div>
@@ -87,11 +87,7 @@ export class ProcessGraphComponent
     image.onload = function()
     {
       that.processGraph.addNode(new ImageLoadingNode(image));
-
-      //that.processGraph.connectNodes(0, 1, 0, 0);
-      //that.processGraph.connectNodes(1, 2, 0, 0);
-
-      //that.processGraph.execute();
+      that.processGraph.execute();
     }
 
     this.nodePositions = [];
@@ -128,15 +124,17 @@ export class ProcessGraphComponent
   {
     let nodeClass = this.availableNodeClassList[this.selectedNodeClassIndex];
     this.processGraph.addNode(new nodeClass());
+
+    let self = this;
+    $('#loading').fadeIn("slow", function()
+    {
+      self.processGraph.execute();
+      $('#loading').fadeOut(3000);
+    });
   }
 
   openModal()
   {
     $('#adding-node-modal').modal();
-  }
-
-  closeModal()
-  {
-
   }
 }
