@@ -20,6 +20,12 @@ var ProcessGraphNode = (function () {
     ProcessGraphNode.prototype.getOutputSize = function () {
         return this.output.length;
     };
+    ProcessGraphNode.prototype.getInput = function (index) {
+        return this.input[index];
+    };
+    ProcessGraphNode.prototype.getInputSize = function () {
+        return this.input.length;
+    };
     ProcessGraphNode.prototype.execute = function () {
         // use input ports for calculations...
         // make something here...

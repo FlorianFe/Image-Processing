@@ -77,6 +77,7 @@ export class ProcessGraphComponent
   {
     this.updateEvent = new EventEmitter();
     this.availableNodeClassList = this.setupAvailableNodeClassList();
+    this.selectedNodeClassIndex = 0;
     this.processGraph = new ProcessGraph();
 
     let image = new Image();

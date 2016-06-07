@@ -30,10 +30,10 @@ declare var $ : any;
 
       <g *ngFor="#edge of edges; #index = index" >
         <line
-          [attr.x1]="edge.source.x + 200"
-          [attr.y1]="edge.source.y + 100"
-          [attr.x2]="edge.destination.x + 0"
-          [attr.y2]="edge.destination.y + 100"
+          [attr.x1]="edge.sourceNodePosition.x + 200"
+          [attr.y1]="edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex"
+          [attr.x2]="edge.destinationNodePosition.x + 0"
+          [attr.y2]="edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex"
           style="stroke:rgb(55,55,55);stroke-width:2"/>
       </g>
 
@@ -42,7 +42,7 @@ declare var $ : any;
           <rect
             (click)="onClickOfInputPort(i, j)"
             [attr.x]="nodePositions[i].x - 10"
-            [attr.y]="nodePositions[i].y + 90 + j*30"
+            [attr.y]="nodePositions[i].y + 90 + j*40"
             width="20"
             height="20"
             [ngClass]="(input === null) ? 'unconnected-port' : 'connected-port'" />
@@ -52,7 +52,7 @@ declare var $ : any;
           <rect
             (click)="onClickOfOutputPort(i, j)"
             [attr.x]="nodePositions[i].x + 190"
-            [attr.y]="nodePositions[i].y + 90 + j*30"
+            [attr.y]="nodePositions[i].y + 90 + j*40"
             width="20"
             height="20"
             [ngClass]="(output === null) ? 'unconnected-port' : 'connected-port'" />
@@ -105,7 +105,20 @@ export class ProcessGraphEdgesComponent
           {
             if(nodes[k] === output.getDestination())
             {
-              edges.push({source: this.nodePositions[i], destination: this.nodePositions[k]});
+              let destinationNode = nodes[k];
+              for(let l = 0; l<destinationNode.getInputSize(); l++)
+              {
+                if(destinationNode.getInput(l) === output)
+                {
+                  edges.push(
+                  {
+                    sourceNodePosition: this.nodePositions[i],
+                    sourcePortIndex: j,
+                    destinationNodePosition: this.nodePositions[k],
+                    destinationPortIndex: l
+                  });
+                }
+              }
             }
           }
         }

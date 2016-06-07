@@ -28,6 +28,7 @@ System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraph
                 function ProcessGraphComponent() {
                     this.updateEvent = new core_1.EventEmitter();
                     this.availableNodeClassList = this.setupAvailableNodeClassList();
+                    this.selectedNodeClassIndex = 0;
                     this.processGraph = new ProcessGraph();
                     var image = new Image();
                     image.src = "res/img/dices.gif";

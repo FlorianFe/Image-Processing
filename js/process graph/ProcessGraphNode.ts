@@ -42,6 +42,16 @@ abstract class ProcessGraphNode
     return this.output.length;
   }
 
+  public getInput(index : number)
+  {
+    return this.input[index];
+  }
+
+  public getInputSize()
+  {
+    return this.input.length;
+  }
+
   public execute()
   {
     // use input ports for calculations...
@@ -64,7 +74,7 @@ abstract class ProcessGraphNode
     this.setValueToOutputPort(1, 2);
     */
   }
-  
+
   protected setValueToOutputPort(portNumber : number, value : any)
   {
     if(this.output[portNumber] !== null)
