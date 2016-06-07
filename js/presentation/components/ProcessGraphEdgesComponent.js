@@ -68,11 +68,13 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         this.processGraph.connectNodes(outputNodeIndex, inputNodeIndex, outputPortIndex, inputPortIndex);
                         this.lastOutputPortClicked = null;
                         this.updateEvent.emit({});
-                        this.processGraph.getNode(outputNodeIndex).reset();
-                        this.processGraph.getNode(inputNodeIndex).reset();
+                        var node1_1 = this.processGraph.getNode(outputNodeIndex);
+                        var node2 = this.processGraph.getNode(inputNodeIndex);
+                        node1_1.reset();
+                        node2.reset();
                         var self_1 = this;
                         $('#loading').fadeIn("slow", function () {
-                            self_1.processGraph.execute();
+                            node1_1.execute();
                             $(this).fadeOut(3000);
                         });
                     }

@@ -64,11 +64,18 @@ abstract class ProcessGraphNode
     // make something here...
     // Write result into output ports...
 
-    console.log('execute Node "' + this.name + '" ...');
+    if(this.isReady())
+    {
+      console.log('execute Node "' + this.name + '" ...');
 
-    this.calculate();
+      this.calculate();
 
-    this.finished = true;
+      this.finished = true;
+    }
+    else
+    {
+      console.log("Node not ready...");
+    }
   }
 
   protected calculate()
@@ -106,7 +113,7 @@ abstract class ProcessGraphNode
   {
     this.key--;
 
-    console.assert(this.key >= 0);
+    console.assert(this.key >= 0, "Key should be 0 or more");
 
     if(this.key === 0)
     {

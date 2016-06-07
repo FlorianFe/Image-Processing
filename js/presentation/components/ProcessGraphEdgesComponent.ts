@@ -156,13 +156,16 @@ export class ProcessGraphEdgesComponent
       this.lastOutputPortClicked = null;
       this.updateEvent.emit({});
 
-      this.processGraph.getNode(outputNodeIndex).reset();
-      this.processGraph.getNode(inputNodeIndex).reset();
+      let node1 = this.processGraph.getNode(outputNodeIndex);
+      let node2 = this.processGraph.getNode(inputNodeIndex);
+
+      node1.reset();
+      node2.reset();
 
       let self = this;
       $('#loading').fadeIn("slow", function()
       {
-        self.processGraph.execute();
+        node1.execute();
         $(this).fadeOut(3000);
       });
     }

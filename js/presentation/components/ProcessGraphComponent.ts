@@ -81,7 +81,7 @@ export class ProcessGraphComponent
     this.processGraph = new ProcessGraph();
 
     let image = new Image();
-    image.src = "res/img/dices.gif";
+    image.src = "res/img/tree.png";
 
     let that = this;
     image.onload = function()
@@ -104,6 +104,7 @@ export class ProcessGraphComponent
     classes.push(SobelYFilterNode);
 
     classes.push(AdditionNode);
+    classes.push(SubtractionNode);
 
     classes.push(CloneNode);
 

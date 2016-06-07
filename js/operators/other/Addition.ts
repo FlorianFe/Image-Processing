@@ -10,7 +10,7 @@ class Addition
   {
     let maxWidth = this.getMaxWidthOfSummands(summands);
     let maxHeight = this.getMaxHeightOfSummands(summands);
-    
+
     let result = new ColorMap(maxWidth, maxHeight);
 
     for(let i=0; i<summands.length; i++)
@@ -36,6 +36,7 @@ class Addition
   private getMaxWidthOfSummands(summands : Array<ColorMap>)
   {
     let maxWidth = 0;
+    console.log(summands);
     for(let i=0; i<summands.length; i++)
     {
       let summand = summands[i];

@@ -4,8 +4,12 @@ var ProcessGraphEdge = (function () {
         this.destination = destination;
     }
     ProcessGraphEdge.prototype.setValue = function (value) {
+        var original = this.value;
         this.value = value;
-        this.destination.decrementKey();
+        if (original === null) {
+            // because we only decrement, when Port had no value
+            this.destination.decrementKey();
+        }
     };
     ProcessGraphEdge.prototype.getValue = function () {
         return this.value;

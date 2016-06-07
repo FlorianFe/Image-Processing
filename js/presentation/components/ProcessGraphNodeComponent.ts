@@ -48,7 +48,7 @@ export class ProcessGraphNodeComponent
   @Input('update-event') updateEvent;
 
   constructor(public element: ElementRef)
-   {
+  {
     this.element.nativeElement // <- your direct element reference
   }
 

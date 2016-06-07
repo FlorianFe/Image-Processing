@@ -12,8 +12,14 @@ class ProcessGraphEdge
 
   public setValue(value)
   {
+    let original = this.value;
     this.value = value;
-    this.destination.decrementKey();
+
+    if(original === null)
+    {
+      // because we only decrement, when Port had no value
+      this.destination.decrementKey();
+    }
   }
 
   public getValue()

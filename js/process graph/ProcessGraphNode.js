@@ -34,9 +34,14 @@ var ProcessGraphNode = (function () {
         // use input ports for calculations...
         // make something here...
         // Write result into output ports...
-        console.log('execute Node "' + this.name + '" ...');
-        this.calculate();
-        this.finished = true;
+        if (this.isReady()) {
+            console.log('execute Node "' + this.name + '" ...');
+            this.calculate();
+            this.finished = true;
+        }
+        else {
+            console.log("Node not ready...");
+        }
     };
     ProcessGraphNode.prototype.calculate = function () {
         /*
@@ -61,7 +66,7 @@ var ProcessGraphNode = (function () {
     };
     ProcessGraphNode.prototype.decrementKey = function () {
         this.key--;
-        console.assert(this.key >= 0);
+        console.assert(this.key >= 0, "Key should be 0 or more");
         if (this.key === 0) {
             this.execute();
         }

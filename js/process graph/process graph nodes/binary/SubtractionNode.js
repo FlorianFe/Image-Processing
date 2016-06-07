@@ -3,17 +3,17 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var AdditionNode = (function (_super) {
-    __extends(AdditionNode, _super);
-    function AdditionNode() {
-        _super.call(this, "Addition", 2, 1);
+var SubtractionNode = (function (_super) {
+    __extends(SubtractionNode, _super);
+    function SubtractionNode() {
+        _super.call(this, "Subtraction", 2, 1);
         this.resultColorMap = null;
     }
-    AdditionNode.prototype.calculate = function () {
+    SubtractionNode.prototype.calculate = function () {
         var sourceColorMap1 = this.getValueFromInputPort(0);
         var sourceColorMap2 = this.getValueFromInputPort(1);
         console.log(sourceColorMap1, sourceColorMap2);
-        var resultColorMap = (new Addition()).convolute([sourceColorMap1, sourceColorMap2]);
+        var resultColorMap = (new Subtraction()).convolute([sourceColorMap1, sourceColorMap2]);
         this.resultColorMap = resultColorMap;
         this.setValueToOutputPort(0, resultColorMap);
         console.log(resultColorMap);
@@ -22,6 +22,6 @@ var AdditionNode = (function (_super) {
         image.width = 200;
         this.displayElement = image;
     };
-    return AdditionNode;
+    return SubtractionNode;
 }(ProcessGraphNode));
-//# sourceMappingURL=AdditionNode.js.map
+//# sourceMappingURL=SubtractionNode.js.map

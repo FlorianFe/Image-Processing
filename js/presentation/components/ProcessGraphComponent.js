@@ -31,7 +31,7 @@ System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraph
                     this.selectedNodeClassIndex = 0;
                     this.processGraph = new ProcessGraph();
                     var image = new Image();
-                    image.src = "res/img/dices.gif";
+                    image.src = "res/img/tree.png";
                     var that = this;
                     image.onload = function () {
                         that.processGraph.addNode(new ImageLoadingNode(image));
@@ -47,6 +47,7 @@ System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraph
                     classes.push(LaplacianOfGaussianNode);
                     classes.push(SobelYFilterNode);
                     classes.push(AdditionNode);
+                    classes.push(SubtractionNode);
                     classes.push(CloneNode);
                     return classes;
                 };

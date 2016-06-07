@@ -21,6 +21,7 @@ var Addition = (function () {
     };
     Addition.prototype.getMaxWidthOfSummands = function (summands) {
         var maxWidth = 0;
+        console.log(summands);
         for (var i = 0; i < summands.length; i++) {
             var summand = summands[i];
             var width = summand.getWidth();
