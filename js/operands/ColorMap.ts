@@ -5,7 +5,7 @@ class ColorMap
   private width : number;
   private height : number;
 
-  constructor(width, height)
+  constructor(width : number, height : number)
   {
     this.width = width;
     this.height = height;
@@ -17,6 +17,18 @@ class ColorMap
       for(let y=0; y<this.height; y++)
       {
         this.pixels[x][y] = new RGBColor(0, 0, 0);
+      }
+    }
+  }
+
+  public copy()
+  {
+    let copyColorMap = new ColorMap(this.width, this.height);
+    for(let x=0; x<this.width; x++)
+    {
+      for(let y=0; y<this.height; y++)
+      {
+        copyColorMap.setPixel(x, y, this.getPixel(x, y));
       }
     }
   }

@@ -10,6 +10,14 @@ var ColorMap = (function () {
             }
         }
     }
+    ColorMap.prototype.copy = function () {
+        var copyColorMap = new ColorMap(this.width, this.height);
+        for (var x = 0; x < this.width; x++) {
+            for (var y = 0; y < this.height; y++) {
+                copyColorMap.setPixel(x, y, this.getPixel(x, y));
+            }
+        }
+    };
     ColorMap.prototype.getWidth = function () {
         return this.width;
     };

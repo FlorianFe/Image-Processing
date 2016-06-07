@@ -24,15 +24,43 @@ declare var $ : any;
         [update-event]="updateEvent"
         ></process-graph-node>
 
-        <div style="position: absolute; right: 20px;">
-          <span (click)="play($event)" style="cursor: pointer;">
-            <i class="fa fa-play-circle fa-3x" aria-hidden="true"></i>
-          </span>
+      <div style="position: absolute; right: 20px;">
+        <span (click)="play($event)" style="cursor: pointer;">
+          <i class="fa fa-play-circle fa-3x" aria-hidden="true"></i>
+        </span>
 
-          <span (click)="addNode($event)" style="cursor: pointer;">
-            <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
-          </span>
+        <span (click)="openModal($event)" style="cursor: pointer;">
+          <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
+        </span>
+      </div>
+
+      <div class="modal fade" id="adding-node-modal" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Neuen Knoten hinzufügen</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="sel1">Kathegorie</label>
+                <select [(ngModel)]="selectedNodeClassIndex" class="form-control" id="sel1">
+                  <option *ngFor="#nodeClass of availableNodeClassList; #index = index"
+                    [attr.value]="index">
+                    {{nodeClass.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" (click)="closeModal()" data-dismiss="modal">Schließen</button>
+              <button type="button" class="btn btn-success" (click)="addNode()" data-dismiss="modal">Hinzufügen</button>
+            </div>
+          </div>
         </div>
+      </div>
     `
 })
 
@@ -42,9 +70,13 @@ export class ProcessGraphComponent
   private nodePositions;
   private updateEvent;
 
+  private availableNodeClassList;
+  private selectedNodeClassIndex;
+
   constructor()
   {
     this.updateEvent = new EventEmitter();
+    this.availableNodeClassList = this.setupAvailableNodeClassList();
     this.processGraph = new ProcessGraph();
 
     let image = new Image();
@@ -54,9 +86,6 @@ export class ProcessGraphComponent
     image.onload = function()
     {
       that.processGraph.addNode(new ImageLoadingNode(image));
-      that.processGraph.addNode(new ImageLoadingNode(image));
-      that.processGraph.addNode(new BoxFilterNode());
-      that.processGraph.addNode(new SobelYFilterNode());
 
       //that.processGraph.connectNodes(0, 1, 0, 0);
       //that.processGraph.connectNodes(1, 2, 0, 0);
@@ -67,6 +96,28 @@ export class ProcessGraphComponent
     this.nodePositions = [];
   }
 
+  private setupAvailableNodeClassList()
+  {
+    let classes = [];
+
+    classes.push(BoxFilterNode);
+    classes.push(DilationNode);
+    classes.push(ErosionNode);
+    classes.push(LaplacianOfGaussianNode);
+    classes.push(SobelYFilterNode);
+
+    classes.push(AdditionNode);
+
+    classes.push(CloneNode);
+
+    return classes;
+  }
+
+  addImageLoadingNode(image)
+  {
+    this.processGraph.addNode(new ImageLoadingNode(image))
+  }
+
   play()
   {
     this.processGraph.execute();
@@ -74,11 +125,17 @@ export class ProcessGraphComponent
 
   addNode()
   {
-    this.processGraph.addNode(new AdditionNode());
+    let nodeClass = this.availableNodeClassList[this.selectedNodeClassIndex];
+    this.processGraph.addNode(new nodeClass());
   }
 
-  addImageLoadingNode(image)
+  openModal()
   {
-    this.processGraph.addNode(new ImageLoadingNode(image))
+    $('#adding-node-modal').modal();
+  }
+
+  closeModal()
+  {
+
   }
 }
