@@ -36,10 +36,6 @@ var ProcessGraphNode = (function () {
         this.setValueToOutputPort(1, 2);
         */
     };
-    ProcessGraphNode.prototype.display = function () {
-        // Wird optional in Unterklasse implementiert
-        return new HTMLElement();
-    };
     ProcessGraphNode.prototype.setValueToOutputPort = function (portNumber, value) {
         if (this.output[portNumber] !== null)
             this.output[portNumber].setValue(value);

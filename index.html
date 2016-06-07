@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="res/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   </head>
   <body>
     <app></app>
@@ -15,15 +16,24 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <!-- 1. Load libraries of model and business logic -->
-
+    <!-- 1.1. Load Process Graph Logic -->
     <script src="js/process graph/ProcessGraph.js"></script>
     <script src="js/process graph/ProcessGraphEdge.js"></script>
     <script src="js/process graph/ProcessGraphNode.js"></script>
 
     <script src="js/process graph/process graph nodes/ImageLoadingNode.js"></script>
-    <script src="js/process graph/process graph nodes/BoxFilterNode.js"></script>
-    <script src="js/process graph/process graph nodes/SobelYFilterNode.js"></script>
 
+    <script src="js/process graph/process graph nodes/unary/BoxFilterNode.js"></script>
+    <script src="js/process graph/process graph nodes/unary/SobelYFilterNode.js"></script>
+    <script src="js/process graph/process graph nodes/unary/LaplacianOfGaussianNode.js"></script>
+
+    <script src="js/process graph/process graph nodes/unary/ErosionNode.js"></script>
+    <script src="js/process graph/process graph nodes/unary/DilationNode.js"></script>
+
+    <script src="js/process graph/process graph nodes/binary/AdditionNode.js"></script>
+
+
+    <!-- 1.2. Load Operands and Operators -->
     <script src="js/parsers/ImageToColorMapParser.js"></script>
     <script src="js/parsers/ColorMapToImageParser.js"></script>
 
@@ -60,8 +70,6 @@
     <script src="node_modules/systemjs/dist/system.src.js"></script>
     <script src="node_modules/rxjs/bundles/Rx.js"></script>
     <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
-
-    <!--<script src="js/presentation/MainComponent.js"></script>-->
 
     <!-- 3. Configure SystemJS -->
     <script>

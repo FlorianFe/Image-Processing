@@ -3,25 +3,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var SobelYNode = (function (_super) {
-    __extends(SobelYNode, _super);
-    function SobelYNode() {
-        _super.call(this, "Sobel-Y Filter", 0, 1);
+var LaplacianOfGaussianNode = (function (_super) {
+    __extends(LaplacianOfGaussianNode, _super);
+    function LaplacianOfGaussianNode() {
+        _super.call(this, "Laplace of Gaussian Filter", 1, 1);
         this.resultColorMap = null;
     }
-    SobelYNode.prototype.display = function () {
-        if (this.resultColorMap !== null) {
-            var image = ColorMapToImageParser.parse(this.resultColorMap);
-            image.width = 200;
-            return image;
-        }
-        else {
-            return new HTMLElement();
-        }
-    };
-    SobelYNode.prototype.calculate = function () {
+    LaplacianOfGaussianNode.prototype.calculate = function () {
         var sourceColorMap = this.getValueFromInputPort(0);
-        var resultColorMap = (new SobelYFilter()).convolute(sourceColorMap);
+        var resultColorMap = (new LaplacianOfGaussianFilter()).convolute(sourceColorMap);
         this.resultColorMap = resultColorMap;
         this.setValueToOutputPort(0, resultColorMap);
         console.log(resultColorMap);
@@ -30,6 +20,6 @@ var SobelYNode = (function (_super) {
         image.width = 200;
         this.displayElement = image;
     };
-    return SobelYNode;
+    return LaplacianOfGaussianNode;
 }(ProcessGraphNode));
-//# sourceMappingURL=SobelYFilter.js.map
+//# sourceMappingURL=LaplacianOfGaussianNode.js.map

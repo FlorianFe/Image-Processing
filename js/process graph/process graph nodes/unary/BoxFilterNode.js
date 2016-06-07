@@ -9,16 +9,6 @@ var BoxFilterNode = (function (_super) {
         _super.call(this, "Box Filter", 1, 1);
         this.resultColorMap = null;
     }
-    BoxFilterNode.prototype.display = function () {
-        if (this.resultColorMap !== null) {
-            var image = ColorMapToImageParser.parse(this.resultColorMap);
-            image.width = 200;
-            return image;
-        }
-        else {
-            return new HTMLElement();
-        }
-    };
     BoxFilterNode.prototype.calculate = function () {
         var sourceColorMap = this.getValueFromInputPort(0);
         var resultColorMap = (new BoxFilter()).convolute(sourceColorMap);

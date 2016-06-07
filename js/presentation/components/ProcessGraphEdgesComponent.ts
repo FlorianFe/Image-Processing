@@ -42,7 +42,7 @@ declare var $ : any;
           <rect
             (click)="onClickOfInputPort(i, j)"
             [attr.x]="nodePositions[i].x - 10"
-            [attr.y]="nodePositions[i].y + 90"
+            [attr.y]="nodePositions[i].y + 90 + j*30"
             width="20"
             height="20"
             [ngClass]="(input === null) ? 'unconnected-port' : 'connected-port'" />
@@ -52,7 +52,7 @@ declare var $ : any;
           <rect
             (click)="onClickOfOutputPort(i, j)"
             [attr.x]="nodePositions[i].x + 190"
-            [attr.y]="nodePositions[i].y + 90"
+            [attr.y]="nodePositions[i].y + 90 + j*30"
             width="20"
             height="20"
             [ngClass]="(output === null) ? 'unconnected-port' : 'connected-port'" />

@@ -33,6 +33,7 @@ System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraph
                     var that = this;
                     image.onload = function () {
                         that.processGraph.addNode(new ImageLoadingNode(image));
+                        that.processGraph.addNode(new ImageLoadingNode(image));
                         that.processGraph.addNode(new BoxFilterNode());
                         that.processGraph.addNode(new SobelYFilterNode());
                         //that.processGraph.connectNodes(0, 1, 0, 0);
@@ -45,19 +46,17 @@ System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraph
                     this.processGraph.execute();
                 };
                 ProcessGraphComponent.prototype.addNode = function () {
-                    this.processGraph.addNode(new BoxFilterNode());
+                    this.processGraph.addNode(new AdditionNode());
                 };
                 ProcessGraphComponent.prototype.addImageLoadingNode = function (image) {
                     this.processGraph.addNode(new ImageLoadingNode(image));
-                };
-                ProcessGraphComponent.prototype.onUpdate = function () {
                 };
                 ProcessGraphComponent = __decorate([
                     core_1.Component({
                         selector: 'process-graph',
                         directives: [ProcessGraphNodeComponent_1.ProcessGraphNodeComponent, ProcessGraphEdgesComponent_1.ProcessGraphEdgesComponent],
                         providers: [],
-                        template: "\n\n      <process-graph-edges\n        [process-graph]=\"processGraph\"\n        [node-positions]=\"nodePositions\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-edges>\n\n      <process-graph-node\n        *ngFor=\"#node of processGraph.nodeList; #index = index\"\n        [process-graph-node]=\"node\"\n        [node-positions]=\"nodePositions\"\n        [node-index]=\"index\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-node>\n\n        <button style=\"position: absolute; right: 20px;\" (click)=\"play($event)\">play</button>\n        <button style=\"position: absolute; right: 50px;\" (click)=\"addNode($event)\">Knoten</button>\n    "
+                        template: "\n\n      <process-graph-edges\n        [process-graph]=\"processGraph\"\n        [node-positions]=\"nodePositions\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-edges>\n\n      <process-graph-node\n        *ngFor=\"#node of processGraph.nodeList; #index = index\"\n        [process-graph-node]=\"node\"\n        [node-positions]=\"nodePositions\"\n        [node-index]=\"index\"\n        [update-event]=\"updateEvent\"\n        ></process-graph-node>\n\n        <div style=\"position: absolute; right: 20px;\">\n          <span (click)=\"play($event)\" style=\"cursor: pointer;\">\n            <i class=\"fa fa-play-circle fa-3x\" aria-hidden=\"true\"></i>\n          </span>\n\n          <span (click)=\"addNode($event)\" style=\"cursor: pointer;\">\n            <i class=\"fa fa-plus-circle fa-3x\" aria-hidden=\"true\"></i>\n          </span>\n        </div>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], ProcessGraphComponent);

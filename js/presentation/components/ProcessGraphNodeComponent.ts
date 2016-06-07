@@ -28,11 +28,6 @@ declare var $ : any;
         }
 
       </style>
-<!--
-      <div class="draggable">
-        {{processGraphNode.name}}
-      </div>
--->
 
       <div #draggableElement class="thumbnail draggable" (load)="onLoad(event)">
         <div *ngIf="processGraphNode.finished">

@@ -1,32 +1,25 @@
 
-class BoxFilterNode extends ProcessGraphNode
+class ErosionNode extends ProcessGraphNode
 {
   private resultColorMap : ColorMap;
 
   constructor()
   {
-    super("Box Filter", 1, 1);
+    super("Erosion", 1, 1);
     this.resultColorMap = null;
-  }
-
-  public display()
-  {
-    if(this.resultColorMap !== null)
-    {
-      let image = ColorMapToImageParser.parse(this.resultColorMap);
-      image.width = 200;
-      return image;
-    }
-    else
-    {
-      return new HTMLElement();
-    }
   }
 
   protected calculate()
   {
+    let structuringElement = new StructuringElement(
+    [
+      [true, true, true],
+      [true, true, true],
+      [true, true, true]
+    ]);
+
     let sourceColorMap = this.getValueFromInputPort(0);
-    let resultColorMap = (new BoxFilter()).convolute(sourceColorMap);
+    let resultColorMap = (new Erosion(structuringElement)).convolute(sourceColorMap);
     this.resultColorMap = resultColorMap;
     this.setValueToOutputPort(0, resultColorMap);
     console.log(resultColorMap);

@@ -24,8 +24,15 @@ declare var $ : any;
         [update-event]="updateEvent"
         ></process-graph-node>
 
-        <button style="position: absolute; right: 20px;" (click)="play($event)">play</button>
-        <button style="position: absolute; right: 50px;" (click)="addNode($event)">Knoten</button>
+        <div style="position: absolute; right: 20px;">
+          <span (click)="play($event)" style="cursor: pointer;">
+            <i class="fa fa-play-circle fa-3x" aria-hidden="true"></i>
+          </span>
+
+          <span (click)="addNode($event)" style="cursor: pointer;">
+            <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
+          </span>
+        </div>
     `
 })
 
@@ -47,6 +54,7 @@ export class ProcessGraphComponent
     image.onload = function()
     {
       that.processGraph.addNode(new ImageLoadingNode(image));
+      that.processGraph.addNode(new ImageLoadingNode(image));
       that.processGraph.addNode(new BoxFilterNode());
       that.processGraph.addNode(new SobelYFilterNode());
 
@@ -66,16 +74,11 @@ export class ProcessGraphComponent
 
   addNode()
   {
-    this.processGraph.addNode(new BoxFilterNode());
+    this.processGraph.addNode(new AdditionNode());
   }
 
   addImageLoadingNode(image)
   {
     this.processGraph.addNode(new ImageLoadingNode(image))
-  }
-
-  onUpdate()
-  {
-
   }
 }

@@ -36,7 +36,7 @@ abstract class ProcessGraphNode
   {
     return this.output[index];
   }
-  
+
   public getOutputSize()
   {
     return this.output.length;
@@ -64,14 +64,7 @@ abstract class ProcessGraphNode
     this.setValueToOutputPort(1, 2);
     */
   }
-
-  public display()
-  {
-    // Wird optional in Unterklasse implementiert
-
-    return new HTMLElement();
-  }
-
+  
   protected setValueToOutputPort(portNumber : number, value : any)
   {
     if(this.output[portNumber] !== null)
