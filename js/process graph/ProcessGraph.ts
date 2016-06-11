@@ -51,8 +51,8 @@ class ProcessGraph
     let outputNode = this.getNode(outputNodeIndex);
     let inputNode = this.getNode(inputNodeIndex);
 
-    let connection = new ProcessGraphEdge(inputNode);
-    outputNode.setOutputConnection(connection, outputPort);
+    let connection = outputNode.getOutput(outputPort);
     inputNode.setInputConnection(connection, inputPort);
+    connection.setDestination(inputNode);
   }
 }

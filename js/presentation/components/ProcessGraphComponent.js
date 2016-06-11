@@ -31,7 +31,7 @@ System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraph
                     this.selectedNodeClassIndex = 0;
                     this.processGraph = new ProcessGraph();
                     var image = new Image();
-                    image.src = "res/img/tree.png";
+                    image.src = "res/img/dices.gif";
                     var that = this;
                     image.onload = function () {
                         that.processGraph.addNode(new ImageLoadingNode(image));

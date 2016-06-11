@@ -31,9 +31,9 @@ var ProcessGraph = (function () {
     ProcessGraph.prototype.connectNodes = function (outputNodeIndex, inputNodeIndex, outputPort, inputPort) {
         var outputNode = this.getNode(outputNodeIndex);
         var inputNode = this.getNode(inputNodeIndex);
-        var connection = new ProcessGraphEdge(inputNode);
-        outputNode.setOutputConnection(connection, outputPort);
+        var connection = outputNode.getOutput(outputPort);
         inputNode.setInputConnection(connection, inputPort);
+        connection.setDestination(inputNode);
     };
     return ProcessGraph;
 }());

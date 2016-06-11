@@ -14,7 +14,7 @@ abstract class ProcessGraphNode
   {
     this.name = name;
     this.input = this.createArrayWithNullValues(numberInputPorts);
-    this.output = this.createArrayWithNullValues(numberOutputPorts);
+    this.output = this.createArrayWithOutputConnections(numberOutputPorts);
     this.key = numberInputPorts;
     this.finished = false;
     this.displayElement = null;
@@ -32,10 +32,21 @@ abstract class ProcessGraphNode
     return array;
   }
 
+  private createArrayWithOutputConnections(length : number)
+  {
+    let array = new Array(length);
+
+    for(let i=0; i<array.length; i++)
+    {
+      array[i] = new ProcessGraphEdge();
+    }
+
+    return array;
+  }
+
   public reset()
   {
     this.finished = false;
-    //this.key = this.input.length;
   }
 
   public getOutput(index : number)
@@ -80,12 +91,7 @@ abstract class ProcessGraphNode
 
   protected calculate()
   {
-    /*
-    this.getValueFromInputPort(0);
 
-    this.setValueToOutputPort(0, 1);
-    this.setValueToOutputPort(1, 2);
-    */
   }
 
   protected setValueToOutputPort(portNumber : number, value : any)
@@ -124,6 +130,7 @@ abstract class ProcessGraphNode
   public setInputConnection(connection, port)
   {
     this.input[port] = connection;
+    console.log(this.input);
   }
 
   public setOutputConnection(connection, port)

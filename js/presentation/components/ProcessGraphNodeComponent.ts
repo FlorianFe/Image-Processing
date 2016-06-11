@@ -27,15 +27,35 @@ declare var $ : any;
           cursor: move;
         }
 
+        .finished
+        {
+            border-color: green;
+        }
+
+        .not-finished
+        {
+
+        }
+
       </style>
 
-      <div #draggableElement class="thumbnail draggable" (load)="onLoad(event)">
+      <div
+        class="thumbnail draggable"
+        [ngClass]="(processGraphNode.finished) ? 'finished' : 'not-finished'"
+        (load)="onLoad(event)"
+        >
+
         <div *ngIf="processGraphNode.finished">
           <img src="{{processGraphNode.displayElement.src}}" width="150" height="100">
         </div>
-       <div class="caption">
-         <h3>{{processGraphNode.name}}</h3>
-       </div>
+
+        <div *ngIf="!processGraphNode.finished">
+          <img width="150" height="100">
+        </div>
+
+        <div class="caption">
+          <h3>{{processGraphNode.name}}</h3>
+        </div>
       </div>
     `
 })

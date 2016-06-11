@@ -1,12 +1,21 @@
 var ProcessGraphEdge = (function () {
     function ProcessGraphEdge(destination) {
         this.value = null;
-        this.destination = destination;
+        this.destination = destination ? destination : null;
     }
+    ProcessGraphEdge.prototype.setDestination = function (destination) {
+        this.destination = destination;
+        console.log(destination);
+        if (this.value !== null) {
+            // lower the key, when output was already calculated
+            this.destination.decrementKey();
+        }
+    };
     ProcessGraphEdge.prototype.setValue = function (value) {
         var original = this.value;
         this.value = value;
-        if (original === null) {
+        console.log(this.destination);
+        if (original === null && this.destination !== null) {
             // because we only decrement, when Port had no value
             this.destination.decrementKey();
         }

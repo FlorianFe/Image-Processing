@@ -2,7 +2,7 @@ var ProcessGraphNode = (function () {
     function ProcessGraphNode(name, numberInputPorts, numberOutputPorts) {
         this.name = name;
         this.input = this.createArrayWithNullValues(numberInputPorts);
-        this.output = this.createArrayWithNullValues(numberOutputPorts);
+        this.output = this.createArrayWithOutputConnections(numberOutputPorts);
         this.key = numberInputPorts;
         this.finished = false;
         this.displayElement = null;
@@ -14,9 +14,15 @@ var ProcessGraphNode = (function () {
         }
         return array;
     };
+    ProcessGraphNode.prototype.createArrayWithOutputConnections = function (length) {
+        var array = new Array(length);
+        for (var i = 0; i < array.length; i++) {
+            array[i] = new ProcessGraphEdge();
+        }
+        return array;
+    };
     ProcessGraphNode.prototype.reset = function () {
         this.finished = false;
-        //this.key = this.input.length;
     };
     ProcessGraphNode.prototype.getOutput = function (index) {
         return this.output[index];
@@ -44,12 +50,6 @@ var ProcessGraphNode = (function () {
         }
     };
     ProcessGraphNode.prototype.calculate = function () {
-        /*
-        this.getValueFromInputPort(0);
-    
-        this.setValueToOutputPort(0, 1);
-        this.setValueToOutputPort(1, 2);
-        */
     };
     ProcessGraphNode.prototype.setValueToOutputPort = function (portNumber, value) {
         if (this.output[portNumber] !== null)
@@ -73,6 +73,7 @@ var ProcessGraphNode = (function () {
     };
     ProcessGraphNode.prototype.setInputConnection = function (connection, port) {
         this.input[port] = connection;
+        console.log(this.input);
     };
     ProcessGraphNode.prototype.setOutputConnection = function (connection, port) {
         this.output[port] = connection;

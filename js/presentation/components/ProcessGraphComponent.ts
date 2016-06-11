@@ -81,7 +81,7 @@ export class ProcessGraphComponent
     this.processGraph = new ProcessGraph();
 
     let image = new Image();
-    image.src = "res/img/tree.png";
+    image.src = "res/img/dices.gif";
 
     let that = this;
     image.onload = function()

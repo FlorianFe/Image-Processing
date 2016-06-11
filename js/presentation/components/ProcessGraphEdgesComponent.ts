@@ -69,7 +69,7 @@ declare var $ : any;
             [attr.y]="nodePositions[i].y + 90 + j*40"
             width="20"
             height="20"
-            [ngClass]="(output === null) ? 'unconnected-port' : 'connected-port'" />
+            [ngClass]="(output === null || output.destination === null) ? 'unconnected-port' : 'connected-port'" />
         </g>
       </g>
     </svg>
@@ -156,16 +156,12 @@ export class ProcessGraphEdgesComponent
       this.lastOutputPortClicked = null;
       this.updateEvent.emit({});
 
-      let node1 = this.processGraph.getNode(outputNodeIndex);
-      let node2 = this.processGraph.getNode(inputNodeIndex);
-
-      node1.reset();
-      node2.reset();
+      let destinationNode = this.processGraph.getNode(inputNodeIndex);
 
       let self = this;
       $('#loading').fadeIn("slow", function()
       {
-        node1.execute();
+        destinationNode.execute();
         $(this).fadeOut(3000);
       });
     }
