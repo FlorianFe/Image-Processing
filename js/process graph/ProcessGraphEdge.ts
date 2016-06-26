@@ -1,36 +1,32 @@
 
 class ProcessGraphEdge
 {
-  private sourceNode : ProcessGraphNode;
-  private sourceNodeOutputPortIndex : number;
-  private destinationNode : ProcessGraphNode;
-  private destinationNodeInputPortIndex : number;
+  private sourcePin : ProcessGraphNodePin;
+  private destinationPin : ProcessGraphNodePin;
 
-  constructor(sn : ProcessGraphNode, snopi : number, dn : ProcessGraphNode, dnipi : number)
+  constructor(sourcePin : ProcessGraphNodePin, destinationPin: ProcessGraphNodePin)
   {
-    this.sourceNode = sn;
-    this.sourceNodeOutputPortIndex = snopi;
-    this.destinationNode = dn;
-    this.destinationNodeInputPortIndex = dnipi;
+    this.sourcePin = sourcePin;
+    this.destinationPin = destinationPin;
   }
 
   public getSourceNode()
   {
-    return this.sourceNode;
-  }
-
-  public getDestinationNode()
-  {
-    return this.destinationNode;
-  }
-
-  public getDestinationNodeInputPortIndex()
-  {
-    return this.destinationNodeInputPortIndex;
+    return this.sourcePin.getNode();
   }
 
   public getSourceNodeOutputPortIndex()
   {
-    return this.sourceNodeOutputPortIndex;
+    return this.sourcePin.getPort();
+  }
+
+  public getDestinationNode()
+  {
+    return this.destinationPin.getNode();
+  }
+
+  public getDestinationNodeInputPortIndex()
+  {
+    return this.destinationPin.getPort();
   }
 }

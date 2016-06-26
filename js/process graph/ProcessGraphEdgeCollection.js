@@ -2,8 +2,8 @@ var ProcessGraphEdgeCollection = (function () {
     function ProcessGraphEdgeCollection() {
         this.edges = [];
     }
-    ProcessGraphEdgeCollection.prototype.connectNodes = function (outputNode, inputNode, outputPort, inputPort) {
-        this.edges.push(new ProcessGraphEdge(outputNode, outputPort, inputNode, inputPort));
+    ProcessGraphEdgeCollection.prototype.connectNodePins = function (sourcePin, destinationPin) {
+        this.edges.push(new ProcessGraphEdge(sourcePin, destinationPin));
     };
     ProcessGraphEdgeCollection.prototype.getInputValuesOfNode = function (node) {
         var inputValues = new Array(node.getInputSize());
@@ -19,6 +19,8 @@ var ProcessGraphEdgeCollection = (function () {
         return inputValues;
     };
     ProcessGraphEdgeCollection.prototype.isNodeReady = function (node) {
+        if (node.isFinished())
+            return false;
         var values = this.getInputValuesOfNode(node);
         for (var i = 0; i < values.length; i++) {
             if (values[i] === null || values[i] === undefined)

@@ -15,7 +15,7 @@ class ProcessGraph
     for(let i=0; i<this.nodeList.length; i++)
     {
       let node = this.nodeList[i];
-      node.resetResult();
+      node.resetResults();
     }
   }
 
@@ -34,25 +34,32 @@ class ProcessGraph
     }
   }
 
-  private getNode(index : number)
-  {
-    if(index < 0) throw new UnableToAccessException();
-    if(index >= this.nodeList.length) throw new UnableToAccessException();
-
-    return this.nodeList[index];
-  }
-
   public addNode(node : ProcessGraphNode)
   {
     this.nodeList.push(node);
   }
 
-  public connectNodes(outputNodeIndex : number, inputNodeIndex : number, outputPort : number, inputPort : number)
+  public connectNodePins(outputNodePin : ProcessGraphNodePin, inputNodePin : ProcessGraphNodePin)
   {
-    this.edgeCollection.connectNodes(
-      this.getNode(outputNodeIndex),
-      this.getNode(inputNodeIndex),
-      outputPort, inputPort
-    );
+    console.assert(this.isNodeInNodeList(outputNodePin.getNode()));
+    console.assert(this.isNodeInNodeList(inputNodePin.getNode()));
+
+    this.edgeCollection.connectNodePins(outputNodePin, inputNodePin);
+  }
+
+  private isNodeInNodeList(node : ProcessGraphNode)
+  {
+    for(let i=0; i<this.nodeList.length; i++)
+    {
+      if(node === this.nodeList[i])
+        return true;
+    }
+
+    return false;
+  }
+
+  public getNodes()
+  {
+    return this.nodeList;
   }
 }

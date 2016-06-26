@@ -1,123 +1,115 @@
-var EXAMPLE_IMAGE = new Image();
-EXAMPLE_IMAGE.src = "res/img/dices.gif";
-EXAMPLE_IMAGE.onload = function()
+
+describe("ProcessGraph", function ()
 {
-  describe("ProcessGraph", function ()
+  let graph;
+
+  beforeEach(function()
   {
-    describe("constructor()", function()
+    graph = new ProcessGraph();
+  });
+
+  describe("constructor()", function()
+  {
+    it("should be created with an empty node list", function ()
     {
-      it("should be created with an empty node list", function ()
-      {
-        let graph = new ProcessGraph();
-
-        expect(graph.nodeList.length).toEqual(0);
-      });
-    });
-
-    describe("+ addNode(ProcessGraphNode node)", function()
-    {
-      it("should have a node in node list, when node is added", function()
-      {
-        let graph = new ProcessGraph();
-        let node = new AdditionNode();
-
-        graph.addNode(node);
-
-        expect(graph.nodeList.length).toEqual(1);
-        expect(graph.nodeList[0] instanceof ProcessGraphNode).toBeTruthy();
-      });
-    });
-
-    describe("+ getNode(int index)", function()
-    {
-      it("should return a Node, when a Node was added and the correct Index has been used", function()
-      {
-        let graph = new ProcessGraph();
-        let node = new AdditionNode();
-
-        graph.addNode(node);
-
-        expect(graph.getNode(0) instanceof ProcessGraphNode).toBeTruthy();
-      });
-
-      it("should throw an Error, when we try to access an Node, when no Nodes were added", function()
-      {
-        let graph = new ProcessGraph();
-
-        let test = function()
-        {
-          graph.getNode(0)
-        }
-
-        expect(test).toThrowError();
-      });
-
-      it("should throw an Error, when we try to access an Node by wrong index range", function()
-      {
-        let graph = new ProcessGraph();
-        let node = new AdditionNode();
-
-        graph.addNode(node);
-
-        let test1 = function()
-        {
-          graph.getNode(1)
-        }
-
-        let test2 = function()
-        {
-          graph.getNode(-1)
-        }
-
-        let test3 = function()
-        {
-          graph.getNode(0)
-        }
-
-        expect(test1).toThrowError();
-        expect(test2).toThrowError();
-        expect(test3).not.toThrowError();
-      });
-    });
-
-    describe("+ execute()", function()
-    {
-      it("should not do anything when no Nodes were added", function()
-      {
-        let graph = new ProcessGraph();
-
-        graph.execute();
-      });
-
-      it("should not do anything when no a unfilled Nodes was added", function()
-      {
-        let graph = new ProcessGraph();
-        let unfilledNode = new AdditionNode();
-        let stateBefore = JSON.stringify(unfilledNode);
-
-        graph.addNode(unfilledNode);
-        graph.execute();
-
-        let stateAfter = JSON.stringify(unfilledNode);
-
-        expect(stateBefore).toEqual(stateAfter);
-      });
-
-      it("should run, when a no input-port Node was added", function()
-      {
-        let graph = new ProcessGraph();
-        let filledNode = new ImageLoadingNode(EXAMPLE_IMAGE);
-
-        graph.addNode(filledNode);
-
-        expect(filledNode.results.length).toBe(1);
-        expect(filledNode.results[0]).toBeNull();
-
-        graph.execute();
-
-        expect(filledNode.results[0]).not.toBeNull();
-      });
-
+      expect(graph.nodeList.length).toEqual(0);
     });
   });
-}
+
+  describe(".addNode(node : ProcessGraphNode)", function()
+  {
+    it("should have a node in node list, when node is added", function()
+    {
+      let node = new ZeroInOneOutNode();
+
+      graph.addNode(node);
+
+      expect(graph.nodeList.length).toEqual(1);
+      expect(graph.nodeList[0] instanceof ProcessGraphNode).toBeTruthy();
+    });
+  });
+
+  describe(".execute()", function()
+  {
+    it("should not do anything when a Node with more than 0 input ports was added", function()
+    {
+      let unfilledNode = new OneInOneOutNode();
+      let stateBefore = JSON.stringify(unfilledNode);
+
+      graph.addNode(unfilledNode);
+      graph.execute();
+
+      let stateAfter = JSON.stringify(unfilledNode);
+
+      expect(stateBefore).toEqual(stateAfter);
+    });
+
+    it("should run, when a Node without input ports was added", function()
+    {
+      let graph = new ProcessGraph();
+      let filledNode = new ZeroInOneOutNode();
+
+      graph.addNode(filledNode);
+
+      expect(filledNode.results.length).toBe(1);
+      expect(filledNode.results[0]).toBeNull();
+      expect(graph.edgeCollection.isNodeReady(filledNode));
+
+      graph.execute();
+
+      console.log(filledNode);
+      expect(filledNode.results[0]).not.toBeNull();
+    });
+
+    it("should run, when some Nodes in a runnable configuration were added", function()
+    {
+      let zeroInOneOutNode = new ZeroInOneOutNode();
+      let oneInOneOutNode = new OneInOneOutNode();
+
+      graph.addNode(zeroInOneOutNode);
+      graph.addNode(oneInOneOutNode);
+
+      graph.connectNodePins(
+        new ProcessGraphNodePin(zeroInOneOutNode, 0),
+        new ProcessGraphNodePin(oneInOneOutNode, 0)
+      );
+
+      expect(oneInOneOutNode.results.length).toBe(1);
+
+      graph.execute();
+
+      expect(typeof zeroInOneOutNode.results[0]).toEqual("number");
+      expect(typeof oneInOneOutNode.results[0]).toEqual("number");
+    });
+  });
+
+  describe(".reset()", function()
+  {
+    it("should set values of all Nodes to null, after they were executed", function()
+    {
+      let zeroInOneOutNode = new ZeroInOneOutNode();
+      let oneInOneOutNode = new OneInOneOutNode();
+
+      graph.addNode(zeroInOneOutNode);
+      graph.addNode(oneInOneOutNode);
+
+      graph.connectNodePins(
+        new ProcessGraphNodePin(zeroInOneOutNode, 0),
+        new ProcessGraphNodePin(oneInOneOutNode, 0)
+      );
+
+      graph.execute();
+      graph.reset();
+
+      for(let i=0; i<graph.nodeList.length; i++)
+      {
+        let results = graph.nodeList[i].results;
+        for(let j=0; j<results.length; j++)
+        {
+          let result = results[j];
+          expect(result).toBeNull();
+        }
+      }
+    });
+  });
+});

@@ -10,7 +10,7 @@ var ImageLoadingNode = (function (_super) {
         this.resultColorMap = ImageToColorMapParser.parse(image);
     }
     ImageLoadingNode.prototype.calculate = function () {
-        this.setResult(0, this.resultColorMap);
+        return [this.resultColorMap];
     };
     return ImageLoadingNode;
 }(ProcessGraphNode));

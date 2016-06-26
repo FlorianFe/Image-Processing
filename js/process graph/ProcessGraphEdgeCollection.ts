@@ -8,9 +8,9 @@ class ProcessGraphEdgeCollection
     this.edges = [];
   }
 
-  public connectNodes(outputNode : ProcessGraphNode, inputNode : ProcessGraphNode, outputPort : number, inputPort : number)
+  public connectNodePins(sourcePin : ProcessGraphNodePin, destinationPin : ProcessGraphNodePin)
   {
-    this.edges.push(new ProcessGraphEdge(outputNode, outputPort, inputNode, inputPort));
+    this.edges.push(new ProcessGraphEdge(sourcePin, destinationPin));
   }
 
   public getInputValuesOfNode(node : ProcessGraphNode)
@@ -35,6 +35,8 @@ class ProcessGraphEdgeCollection
 
   public isNodeReady(node : ProcessGraphNode)
   {
+    if(node.isFinished()) return false;
+
     let values = this.getInputValuesOfNode(node);
 
     for(let i=0; i<values.length; i++)

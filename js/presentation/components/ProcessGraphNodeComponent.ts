@@ -1,3 +1,6 @@
+import {NodeIdToPositionMap} from '../view model/NodeIdToPositionMap';
+import {Vector2d} from '../view model/Vector2d';
+
 import {Component, ElementRef, Output, EventEmitter} from 'angular2/core';
 import {Input} from 'angular2/core';
 
@@ -10,10 +13,10 @@ declare var $ : any;
     template: `
       <style>
 
-        .thumbnail
+        .card
         {
           left: 0px;
-          top: 0px;
+          top: 60px;
           margin: 40px;
           width: 200px;
           height: 200px;
@@ -29,21 +32,17 @@ declare var $ : any;
 
       </style>
 
-      <div
-        class="thumbnail draggable"
-        (load)="onLoad(event)"
-        >
-
-        <div *ngIf="processGraphNode.finished">
-          <img src="{{processGraphNode.displayElement.src}}" width="150" height="100">
+      <div class="card draggable">
+        <div *ngIf="processGraphNode.isFinished()">
+          <img width="200" height="150">
         </div>
 
-        <div *ngIf="!processGraphNode.finished">
-          <img width="150" height="100">
+        <div *ngIf="!processGraphNode.isFinished()">
+          <img width="200" height="150">
         </div>
 
-        <div class="caption">
-          <h3>{{processGraphNode.name}}</h3>
+        <div class="card-content">
+          <b>{{processGraphNode.name}}</b>
         </div>
       </div>
     `
@@ -52,19 +51,29 @@ declare var $ : any;
 export class ProcessGraphNodeComponent
 {
   @Input("process-graph-node") processGraphNode;
-  @Input("node-positions") nodePositions;
+  @Input("node-positions-map") nodePositionsMap;
   @Input("node-index") nodeIndex;
   @Input('update-event') updateEvent;
 
   constructor(public element: ElementRef)
   {
-    this.element.nativeElement // <- your direct element reference
+
   }
 
   setPosition()
   {
-    var el = this.element.nativeElement;
-    this.nodePositions[this.nodeIndex] = {x: $(el).children().offset().left, y: $(el).children().offset().top};
+    if(this.nodePositionsMap)
+    {
+      var el = this.element.nativeElement;
+      this.nodePositionsMap.setPosition(
+        this.processGraphNode.getId(),
+        new Vector2d(
+          $(el).children().offset().left,
+          $(el).children().offset().top
+        )
+      );
+    }
+    console.log("pos changed");
   }
 
   ngAfterViewInit()
@@ -89,6 +98,8 @@ export class ProcessGraphNodeComponent
         drag: function( event, ui )
         {
           self.updateEvent.emit({});
+          self.setPosition();
+          $('body').click();
         }
       });
     }

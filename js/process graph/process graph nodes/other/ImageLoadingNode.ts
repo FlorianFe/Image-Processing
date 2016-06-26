@@ -11,6 +11,6 @@ class ImageLoadingNode extends ProcessGraphNode
 
   protected calculate()
   {
-    this.setResult(0, this.resultColorMap);
+    return [this.resultColorMap];
   }
 }

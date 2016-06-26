@@ -25,9 +25,8 @@ declare var $ : any;
       }
 
     </style>
-
     <svg style="position: absolute; left:0px; right:0px;" width="1600" height="800">
-
+<!--
       <g *ngFor="#edge of edges; #index = index" >
         <line
           [attr.x1]="edge.sourceNodePosition.x + 200"
@@ -50,28 +49,55 @@ declare var $ : any;
           [attr.y2]="edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex"
           style="stroke:rgb(55,55,55);stroke-width:2"/>
       </g>
-
-      <g *ngFor="#node of processGraph.getNodes(); #i = index" >
-        <g *ngFor="#input of node.input; #j = index" >
+-->
+      <g *ngFor="#node of processGraph.nodeList; #i = index" >
+        <g *ngFor="#number of getNumbers(node.numberInputPorts); #j = index">
           <rect
-            (click)="onClickOfInputPort(i, j)"
-            [attr.x]="nodePositions[i].x - 10"
-            [attr.y]="nodePositions[i].y + 90 + j*40"
+            (click)="onClickOfInputPort(0, 0)"
+            [attr.x]="nodePositionsMap.getPosition(node.id).x - 10"
+            [attr.y]="nodePositionsMap.getPosition(node.id).y + 90 + j*40"
             width="20"
             height="20"
-            [ngClass]="(input === null) ? 'unconnected-port' : 'connected-port'" />
+            class="unconnected-port"
+            />
         </g>
 
-        <g *ngFor="#output of node.output; #j = index" >
+        <line x1="0" x2="100" y1="0" y2="100"></line>
+
+        <g *ngFor="#number of getNumbers(node.numberOutputPorts); #j = index">
           <rect
-            (click)="onClickOfOutputPort(i, j)"
-            [attr.x]="nodePositions[i].x + 190"
-            [attr.y]="nodePositions[i].y + 90 + j*40"
+            (click)="onClickOfOutputPort(0, 0)"
+            [attr.x]="nodePositionsMap.getPosition(node.id).x + 190"
+            [attr.y]="nodePositionsMap.getPosition(node.id).y + 90 + j*40"
             width="20"
             height="20"
-            [ngClass]="(output === null || output.destination === null) ? 'unconnected-port' : 'connected-port'" />
+            class="unconnected-port"
+            />
         </g>
       </g>
+<!--
+      <g *ngFor="#edge of processGraph.edgeCollection.edges; #i = index" >
+        <g>
+          <rect
+            (click)="onClickOfInputPort(0, 0)"
+            [attr.x]="nodePositionsMap.getPosition(edge.destinationPin.node.id).x - 10"
+            [attr.y]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 90 + j*40"
+            width="20"
+            height="20"/>
+        </g>
+
+        <line x1="0" x2="100" y1="0" y2="100"></line>
+
+        <g>
+          <rect
+            (click)="onClickOfOutputPort(0, 0)"
+            [attr.x]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 190"
+            [attr.y]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 90 + j*40"
+            width="20"
+            height="20" />
+        </g>
+      </g>
+-->
     </svg>
 
     `
@@ -80,67 +106,29 @@ declare var $ : any;
 export class ProcessGraphEdgesComponent
 {
   @Input("process-graph") processGraph;
-  @Input("node-positions") nodePositions;
+  @Input("node-positions-map") nodePositionsMap;
   @Input('update-event') updateEvent;
 
-  private edges : Array<Object>;
   private lastOutputPortClicked : any;
 
   constructor()
   {
     this.lastOutputPortClicked = null;
-    this.edges = [];
+  }
+
+  getNumbers(num : number)
+  {
+    let array = new Array(num);
+    for(let i=0; i<num; i++)
+    {
+      array[i] = i;
+    }
+    return array;
   }
 
   ngAfterViewInit()
   {
-    this.edges = this.calculateEdges();
-    let that = this;
 
-    this.updateEvent.subscribe(function()
-    {
-      that.edges = that.calculateEdges();
-    });
-  }
-
-  private calculateEdges()
-  {
-    let edges = [];
-    let nodes = this.processGraph.getNodes();
-
-    for(let i=0; i<nodes.length; i++)
-    {
-      let node = nodes[i];
-      for(let j=0; j<node.getOutputSize(); j++)
-      {
-        let output = node.getOutput(j);
-        for(let k=0; k<nodes.length; k++)
-        {
-          if(output !== null)
-          {
-            if(nodes[k] === output.getDestination())
-            {
-              let destinationNode = nodes[k];
-              for(let l = 0; l<destinationNode.getInputSize(); l++)
-              {
-                if(destinationNode.getInput(l) === output)
-                {
-                  edges.push(
-                  {
-                    sourceNodePosition: this.nodePositions[i],
-                    sourcePortIndex: j,
-                    destinationNodePosition: this.nodePositions[k],
-                    destinationPortIndex: l
-                  });
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    return edges;
   }
 
   onClickOfInputPort(nodeIndex, portIndex)

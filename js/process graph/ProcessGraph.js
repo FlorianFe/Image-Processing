@@ -6,7 +6,7 @@ var ProcessGraph = (function () {
     ProcessGraph.prototype.reset = function () {
         for (var i = 0; i < this.nodeList.length; i++) {
             var node = this.nodeList[i];
-            node.resetResult();
+            node.resetResults();
         }
     };
     ProcessGraph.prototype.execute = function () {
@@ -19,18 +19,23 @@ var ProcessGraph = (function () {
             }
         }
     };
-    ProcessGraph.prototype.getNode = function (index) {
-        if (index < 0)
-            throw new UnableToAccessException();
-        if (index >= this.nodeList.length)
-            throw new UnableToAccessException();
-        return this.nodeList[index];
-    };
     ProcessGraph.prototype.addNode = function (node) {
         this.nodeList.push(node);
     };
-    ProcessGraph.prototype.connectNodes = function (outputNodeIndex, inputNodeIndex, outputPort, inputPort) {
-        this.edgeCollection.connectNodes(this.getNode(outputNodeIndex), this.getNode(inputNodeIndex), outputPort, inputPort);
+    ProcessGraph.prototype.connectNodePins = function (outputNodePin, inputNodePin) {
+        console.assert(this.isNodeInNodeList(outputNodePin.getNode()));
+        console.assert(this.isNodeInNodeList(inputNodePin.getNode()));
+        this.edgeCollection.connectNodePins(outputNodePin, inputNodePin);
+    };
+    ProcessGraph.prototype.isNodeInNodeList = function (node) {
+        for (var i = 0; i < this.nodeList.length; i++) {
+            if (node === this.nodeList[i])
+                return true;
+        }
+        return false;
+    };
+    ProcessGraph.prototype.getNodes = function () {
+        return this.nodeList;
     };
     return ProcessGraph;
 }());

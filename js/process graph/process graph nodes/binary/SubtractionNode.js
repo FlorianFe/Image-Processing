@@ -12,8 +12,7 @@ var SubtractionNode = (function (_super) {
         var sourceColorMap1 = values[0];
         var sourceColorMap2 = values[1];
         var resultColorMap = (new Subtraction()).convolute([sourceColorMap1, sourceColorMap2]);
-        this.setResult(0, resultColorMap);
-        console.log(resultColorMap);
+        return [resultColorMap];
     };
     return SubtractionNode;
 }(ProcessGraphNode));

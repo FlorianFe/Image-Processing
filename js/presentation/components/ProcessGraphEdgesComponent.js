@@ -22,42 +22,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             ProcessGraphEdgesComponent = (function () {
                 function ProcessGraphEdgesComponent() {
                     this.lastOutputPortClicked = null;
-                    this.edges = [];
                 }
-                ProcessGraphEdgesComponent.prototype.ngAfterViewInit = function () {
-                    this.edges = this.calculateEdges();
-                    var that = this;
-                    this.updateEvent.subscribe(function () {
-                        that.edges = that.calculateEdges();
-                    });
-                };
-                ProcessGraphEdgesComponent.prototype.calculateEdges = function () {
-                    var edges = [];
-                    var nodes = this.processGraph.getNodes();
-                    for (var i = 0; i < nodes.length; i++) {
-                        var node = nodes[i];
-                        for (var j = 0; j < node.getOutputSize(); j++) {
-                            var output = node.getOutput(j);
-                            for (var k = 0; k < nodes.length; k++) {
-                                if (output !== null) {
-                                    if (nodes[k] === output.getDestination()) {
-                                        var destinationNode = nodes[k];
-                                        for (var l = 0; l < destinationNode.getInputSize(); l++) {
-                                            if (destinationNode.getInput(l) === output) {
-                                                edges.push({
-                                                    sourceNodePosition: this.nodePositions[i],
-                                                    sourcePortIndex: j,
-                                                    destinationNodePosition: this.nodePositions[k],
-                                                    destinationPortIndex: l
-                                                });
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                ProcessGraphEdgesComponent.prototype.getNumbers = function (num) {
+                    var array = new Array(num);
+                    for (var i = 0; i < num; i++) {
+                        array[i] = i;
                     }
-                    return edges;
+                    return array;
+                };
+                ProcessGraphEdgesComponent.prototype.ngAfterViewInit = function () {
                 };
                 ProcessGraphEdgesComponent.prototype.onClickOfInputPort = function (nodeIndex, portIndex) {
                     if (this.lastOutputPortClicked) {
@@ -84,9 +57,9 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     __metadata('design:type', Object)
                 ], ProcessGraphEdgesComponent.prototype, "processGraph", void 0);
                 __decorate([
-                    core_2.Input("node-positions"), 
+                    core_2.Input("node-positions-map"), 
                     __metadata('design:type', Object)
-                ], ProcessGraphEdgesComponent.prototype, "nodePositions", void 0);
+                ], ProcessGraphEdgesComponent.prototype, "nodePositionsMap", void 0);
                 __decorate([
                     core_2.Input('update-event'), 
                     __metadata('design:type', Object)
@@ -96,7 +69,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         selector: 'process-graph-edges',
                         directives: [],
                         providers: [],
-                        template: "\n\n    <style>\n\n      .connected-port\n      {\n        stroke: none;\n        fill: black;\n      }\n\n      .unconnected-port\n      {\n        stroke: black;\n        stroke-width: 1;\n        fill: white;\n      }\n\n    </style>\n\n    <svg style=\"position: absolute; left:0px; right:0px;\" width=\"1600\" height=\"800\">\n\n      <g *ngFor=\"#edge of edges; #index = index\" >\n        <line\n          [attr.x1]=\"edge.sourceNodePosition.x + 200\"\n          [attr.y1]=\"edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex\"\n          [attr.x2]=\"edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)\"\n          [attr.y2]=\"edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex\"\n          style=\"stroke:rgb(55,55,55);stroke-width:2\"/>\n\n        <line\n          [attr.x1]=\"edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)\"\n          [attr.y1]=\"edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex\"\n          [attr.x2]=\"edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)\"\n          [attr.y2]=\"edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex\"\n          style=\"stroke:rgb(55,55,55);stroke-width:2\"/>\n\n        <line\n          [attr.x1]=\"edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)\"\n          [attr.y1]=\"edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex\"\n          [attr.x2]=\"edge.destinationNodePosition.x + 0\"\n          [attr.y2]=\"edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex\"\n          style=\"stroke:rgb(55,55,55);stroke-width:2\"/>\n      </g>\n\n      <g *ngFor=\"#node of processGraph.getNodes(); #i = index\" >\n        <g *ngFor=\"#input of node.input; #j = index\" >\n          <rect\n            (click)=\"onClickOfInputPort(i, j)\"\n            [attr.x]=\"nodePositions[i].x - 10\"\n            [attr.y]=\"nodePositions[i].y + 90 + j*40\"\n            width=\"20\"\n            height=\"20\"\n            [ngClass]=\"(input === null) ? 'unconnected-port' : 'connected-port'\" />\n        </g>\n\n        <g *ngFor=\"#output of node.output; #j = index\" >\n          <rect\n            (click)=\"onClickOfOutputPort(i, j)\"\n            [attr.x]=\"nodePositions[i].x + 190\"\n            [attr.y]=\"nodePositions[i].y + 90 + j*40\"\n            width=\"20\"\n            height=\"20\"\n            [ngClass]=\"(output === null || output.destination === null) ? 'unconnected-port' : 'connected-port'\" />\n        </g>\n      </g>\n    </svg>\n\n    "
+                        template: "\n\n    <style>\n\n      .connected-port\n      {\n        stroke: none;\n        fill: black;\n      }\n\n      .unconnected-port\n      {\n        stroke: black;\n        stroke-width: 1;\n        fill: white;\n      }\n\n    </style>\n    <svg style=\"position: absolute; left:0px; right:0px;\" width=\"1600\" height=\"800\">\n<!--\n      <g *ngFor=\"#edge of edges; #index = index\" >\n        <line\n          [attr.x1]=\"edge.sourceNodePosition.x + 200\"\n          [attr.y1]=\"edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex\"\n          [attr.x2]=\"edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)\"\n          [attr.y2]=\"edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex\"\n          style=\"stroke:rgb(55,55,55);stroke-width:2\"/>\n\n        <line\n          [attr.x1]=\"edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)\"\n          [attr.y1]=\"edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex\"\n          [attr.x2]=\"edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)\"\n          [attr.y2]=\"edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex\"\n          style=\"stroke:rgb(55,55,55);stroke-width:2\"/>\n\n        <line\n          [attr.x1]=\"edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)\"\n          [attr.y1]=\"edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex\"\n          [attr.x2]=\"edge.destinationNodePosition.x + 0\"\n          [attr.y2]=\"edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex\"\n          style=\"stroke:rgb(55,55,55);stroke-width:2\"/>\n      </g>\n-->\n      <g *ngFor=\"#node of processGraph.nodeList; #i = index\" >\n        <g *ngFor=\"#number of getNumbers(node.numberInputPorts); #j = index\">\n          <rect\n            (click)=\"onClickOfInputPort(0, 0)\"\n            [attr.x]=\"nodePositionsMap.getPosition(node.id).x - 10\"\n            [attr.y]=\"nodePositionsMap.getPosition(node.id).y + 90 + j*40\"\n            width=\"20\"\n            height=\"20\"\n            class=\"unconnected-port\"\n            />\n        </g>\n\n        <line x1=\"0\" x2=\"100\" y1=\"0\" y2=\"100\"></line>\n\n        <g *ngFor=\"#number of getNumbers(node.numberOutputPorts); #j = index\">\n          <rect\n            (click)=\"onClickOfOutputPort(0, 0)\"\n            [attr.x]=\"nodePositionsMap.getPosition(node.id).x + 190\"\n            [attr.y]=\"nodePositionsMap.getPosition(node.id).y + 90 + j*40\"\n            width=\"20\"\n            height=\"20\"\n            class=\"unconnected-port\"\n            />\n        </g>\n      </g>\n<!--\n      <g *ngFor=\"#edge of processGraph.edgeCollection.edges; #i = index\" >\n        <g>\n          <rect\n            (click)=\"onClickOfInputPort(0, 0)\"\n            [attr.x]=\"nodePositionsMap.getPosition(edge.destinationPin.node.id).x - 10\"\n            [attr.y]=\"nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 90 + j*40\"\n            width=\"20\"\n            height=\"20\"/>\n        </g>\n\n        <line x1=\"0\" x2=\"100\" y1=\"0\" y2=\"100\"></line>\n\n        <g>\n          <rect\n            (click)=\"onClickOfOutputPort(0, 0)\"\n            [attr.x]=\"nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 190\"\n            [attr.y]=\"nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 90 + j*40\"\n            width=\"20\"\n            height=\"20\" />\n        </g>\n      </g>\n-->\n    </svg>\n\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], ProcessGraphEdgesComponent);

@@ -1,21 +1,19 @@
 var ProcessGraphEdge = (function () {
-    function ProcessGraphEdge(sn, snopi, dn, dnipi) {
-        this.sourceNode = sn;
-        this.sourceNodeOutputPortIndex = snopi;
-        this.destinationNode = dn;
-        this.destinationNodeInputPortIndex = dnipi;
+    function ProcessGraphEdge(sourcePin, destinationPin) {
+        this.sourcePin = sourcePin;
+        this.destinationPin = destinationPin;
     }
     ProcessGraphEdge.prototype.getSourceNode = function () {
-        return this.sourceNode;
-    };
-    ProcessGraphEdge.prototype.getDestinationNode = function () {
-        return this.destinationNode;
-    };
-    ProcessGraphEdge.prototype.getDestinationNodeInputPortIndex = function () {
-        return this.destinationNodeInputPortIndex;
+        return this.sourcePin.getNode();
     };
     ProcessGraphEdge.prototype.getSourceNodeOutputPortIndex = function () {
-        return this.sourceNodeOutputPortIndex;
+        return this.sourcePin.getPort();
+    };
+    ProcessGraphEdge.prototype.getDestinationNode = function () {
+        return this.destinationPin.getNode();
+    };
+    ProcessGraphEdge.prototype.getDestinationNodeInputPortIndex = function () {
+        return this.destinationPin.getPort();
     };
     return ProcessGraphEdge;
 }());
