@@ -1,30 +1,21 @@
 var ProcessGraphEdge = (function () {
-    function ProcessGraphEdge(destination) {
-        this.value = null;
-        this.destination = destination ? destination : null;
+    function ProcessGraphEdge(sn, snopi, dn, dnipi) {
+        this.sourceNode = sn;
+        this.sourceNodeOutputPortIndex = snopi;
+        this.destinationNode = dn;
+        this.destinationNodeInputPortIndex = dnipi;
     }
-    ProcessGraphEdge.prototype.setDestination = function (destination) {
-        this.destination = destination;
-        console.log(destination);
-        if (this.value !== null) {
-            // lower the key, when output was already calculated
-            this.destination.decrementKey();
-        }
+    ProcessGraphEdge.prototype.getSourceNode = function () {
+        return this.sourceNode;
     };
-    ProcessGraphEdge.prototype.setValue = function (value) {
-        var original = this.value;
-        this.value = value;
-        console.log(this.destination);
-        if (original === null && this.destination !== null) {
-            // because we only decrement, when Port had no value
-            this.destination.decrementKey();
-        }
+    ProcessGraphEdge.prototype.getDestinationNode = function () {
+        return this.destinationNode;
     };
-    ProcessGraphEdge.prototype.getValue = function () {
-        return this.value;
+    ProcessGraphEdge.prototype.getDestinationNodeInputPortIndex = function () {
+        return this.destinationNodeInputPortIndex;
     };
-    ProcessGraphEdge.prototype.getDestination = function () {
-        return this.destination;
+    ProcessGraphEdge.prototype.getSourceNodeOutputPortIndex = function () {
+        return this.sourceNodeOutputPortIndex;
     };
     return ProcessGraphEdge;
 }());

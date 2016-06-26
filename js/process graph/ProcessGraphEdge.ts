@@ -1,49 +1,36 @@
 
 class ProcessGraphEdge
 {
-  private value : any;
-  private destination : ProcessGraphNode;
+  private sourceNode : ProcessGraphNode;
+  private sourceNodeOutputPortIndex : number;
+  private destinationNode : ProcessGraphNode;
+  private destinationNodeInputPortIndex : number;
 
-  constructor(destination? : ProcessGraphNode)
+  constructor(sn : ProcessGraphNode, snopi : number, dn : ProcessGraphNode, dnipi : number)
   {
-    this.value = null;
-    this.destination = destination ? destination : null;
+    this.sourceNode = sn;
+    this.sourceNodeOutputPortIndex = snopi;
+    this.destinationNode = dn;
+    this.destinationNodeInputPortIndex = dnipi;
   }
 
-  public setDestination(destination : ProcessGraphNode)
+  public getSourceNode()
   {
-    this.destination = destination;
-
-    console.log(destination);
-
-    if(this.value !== null)
-    {
-      // lower the key, when output was already calculated
-      this.destination.decrementKey();
-    }
+    return this.sourceNode;
   }
 
-  public setValue(value)
+  public getDestinationNode()
   {
-    let original = this.value;
-    this.value = value;
-
-    console.log(this.destination);
-
-    if(original === null && this.destination !== null)
-    {
-      // because we only decrement, when Port had no value
-      this.destination.decrementKey();
-    }
+    return this.destinationNode;
   }
 
-  public getValue()
+  public getDestinationNodeInputPortIndex()
   {
-    return this.value;
+    return this.destinationNodeInputPortIndex;
   }
 
-  public getDestination()
+  public getSourceNodeOutputPortIndex()
   {
-    return this.destination;
+    return this.sourceNodeOutputPortIndex;
   }
 }

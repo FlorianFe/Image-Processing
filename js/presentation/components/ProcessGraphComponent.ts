@@ -46,7 +46,9 @@ declare var $ : any;
             <div class="modal-body">
               <div class="form-group">
                 <label for="sel1">Kathegorie</label>
-                <select [(ngModel)]="selectedNodeClassIndex" class="form-control" id="sel1">
+                <select [(ngModel)]="selectedNodeClassIndex"
+                    (change)="changeSelectValue($event.target.value)"
+                    class="form-control" id="sel1">
                   <option *ngFor="#nodeClass of availableNodeClassList; #index = index"
                     [attr.value]="index">
                     {{nodeClass.name}}
@@ -98,10 +100,11 @@ export class ProcessGraphComponent
     let classes = [];
 
     classes.push(BoxFilterNode);
-    classes.push(DilationNode);
-    classes.push(ErosionNode);
     classes.push(LaplacianOfGaussianNode);
     classes.push(SobelYFilterNode);
+
+    classes.push(DilationNode);
+    classes.push(ErosionNode);
 
     classes.push(AdditionNode);
     classes.push(SubtractionNode);
@@ -123,6 +126,7 @@ export class ProcessGraphComponent
 
   addNode()
   {
+    console.log(this.selectedNodeClassIndex);
     let nodeClass = this.availableNodeClassList[this.selectedNodeClassIndex];
     this.processGraph.addNode(new nodeClass());
 
@@ -137,5 +141,10 @@ export class ProcessGraphComponent
   openModal()
   {
     $('#adding-node-modal').modal();
+  }
+
+  changeSelectValue(value)
+  {
+    this.selectedNodeClassIndex = value;
   }
 }

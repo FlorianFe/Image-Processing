@@ -6,8 +6,15 @@ compiler.bat
 backups
 Gruntfile.js
 tsconfig.json
-*.js
+
+js/*.js
+js/*/*.js
+js/*/*/*.js
+js/*/*/*/*.js
+js/*/*/*/*/*.js
+
 *.map
 package.json
 README.md
 typings.json
+typings

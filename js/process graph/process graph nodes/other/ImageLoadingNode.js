@@ -7,18 +7,10 @@ var ImageLoadingNode = (function (_super) {
     __extends(ImageLoadingNode, _super);
     function ImageLoadingNode(image) {
         _super.call(this, "Image Loading", 0, 1);
-        this.colorMap = ImageToColorMapParser.parse(image);
+        this.resultColorMap = ImageToColorMapParser.parse(image);
     }
-    ImageLoadingNode.prototype.display = function () {
-        var image = ColorMapToImageParser.parse(this.colorMap);
-        image.width = 150;
-        return image;
-    };
     ImageLoadingNode.prototype.calculate = function () {
-        this.setValueToOutputPort(0, this.colorMap);
-        var image = ColorMapToImageParser.parse(this.colorMap);
-        image.width = 150;
-        this.displayElement = image;
+        this.setResult(0, this.resultColorMap);
     };
     return ImageLoadingNode;
 }(ProcessGraphNode));

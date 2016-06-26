@@ -1,39 +1,45 @@
-//import {ProcessGraphNode} from './Process
 
 class ProcessGraph
 {
   private nodeList : Array<ProcessGraphNode>;
+  private edgeCollection : ProcessGraphEdgeCollection;
 
   constructor()
   {
     this.nodeList = [];
+    this.edgeCollection = new ProcessGraphEdgeCollection();
+  }
+
+  public reset()
+  {
+    for(let i=0; i<this.nodeList.length; i++)
+    {
+      let node = this.nodeList[i];
+      node.resetResult();
+    }
   }
 
   public execute()
   {
-    /*for(let i=0; i<this.nodeList.length; i++)
-    {
-      let node = this.nodeList[i];
-      node.reset();
-    }*/
-
     for(let i=0; i<this.nodeList.length; i++)
     {
       let node = this.nodeList[i];
-      if(node.isReady())
+
+      if(this.edgeCollection.isNodeReady(node))
       {
-        node.execute();
-      }
-      else
-      {
-        console.log("node not ready");
+        let values = this.edgeCollection.getInputValuesOfNode(node);
+        node.execute(values);
+        i = 0;
       }
     }
   }
 
-  public getNodes()
+  private getNode(index : number)
   {
-    return this.nodeList;
+    if(index < 0) throw new UnableToAccessException();
+    if(index >= this.nodeList.length) throw new UnableToAccessException();
+
+    return this.nodeList[index];
   }
 
   public addNode(node : ProcessGraphNode)
@@ -41,18 +47,12 @@ class ProcessGraph
     this.nodeList.push(node);
   }
 
-  public getNode(index : number)
-  {
-    return this.nodeList[index];
-  }
-
   public connectNodes(outputNodeIndex : number, inputNodeIndex : number, outputPort : number, inputPort : number)
   {
-    let outputNode = this.getNode(outputNodeIndex);
-    let inputNode = this.getNode(inputNodeIndex);
-
-    let connection = outputNode.getOutput(outputPort);
-    inputNode.setInputConnection(connection, inputPort);
-    connection.setDestination(inputNode);
+    this.edgeCollection.connectNodes(
+      this.getNode(outputNodeIndex),
+      this.getNode(inputNodeIndex),
+      outputPort, inputPort
+    );
   }
 }

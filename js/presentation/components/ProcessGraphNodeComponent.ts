@@ -27,21 +27,10 @@ declare var $ : any;
           cursor: move;
         }
 
-        .finished
-        {
-            border-color: green;
-        }
-
-        .not-finished
-        {
-
-        }
-
       </style>
 
       <div
         class="thumbnail draggable"
-        [ngClass]="(processGraphNode.finished) ? 'finished' : 'not-finished'"
         (load)="onLoad(event)"
         >
 
