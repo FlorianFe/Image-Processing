@@ -1,5 +1,3 @@
-import {Vector2d} from './Vector2d';
-
 export class NodeIdToPositionMap
 {
   private processGraph : ProcessGraph;

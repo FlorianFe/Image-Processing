@@ -2,6 +2,7 @@
 class ProcessGraphNodeViewDecorator extends ProcessGraphNode
 {
   private displayImage;
+  private displayPosition;
   private processGraphNode;
 
   constructor(processGraphNode : ProcessGraphNode)
@@ -23,5 +24,15 @@ class ProcessGraphNodeViewDecorator extends ProcessGraphNode
   getDisplayImage()
   {
     return this.displayImage;
+  }
+
+  setDisplayPosition(x, y)
+  {
+    this.displayPosition = {x: x, y: y};
+  }
+
+  getDisplayPosition()
+  {
+    return this.displayPosition();
   }
 }

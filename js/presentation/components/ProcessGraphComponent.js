@@ -1,4 +1,4 @@
-System.register(['../view model/NodeIdToPositionMap', 'angular2/core', './ProcessGraphNodeComponent', './ProcessGraphEdgesComponent'], function(exports_1, context_1) {
+System.register(['angular2/core', './ProcessGraphNodeComponent', './ProcessGraphEdgesComponent'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,13 +10,10 @@ System.register(['../view model/NodeIdToPositionMap', 'angular2/core', './Proces
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var NodeIdToPositionMap_1, core_1, ProcessGraphNodeComponent_1, ProcessGraphEdgesComponent_1;
+    var core_1, ProcessGraphNodeComponent_1, ProcessGraphEdgesComponent_1;
     var ProcessGraphComponent;
     return {
         setters:[
-            function (NodeIdToPositionMap_1_1) {
-                NodeIdToPositionMap_1 = NodeIdToPositionMap_1_1;
-            },
             function (core_1_1) {
                 core_1 = core_1_1;
             },
@@ -34,12 +31,11 @@ System.register(['../view model/NodeIdToPositionMap', 'angular2/core', './Proces
                     this.processGraph = new ProcessGraph();
                     this.jasmineOpened = false;
                     var image = new Image();
-                    image.src = "res/img/dices.gif";
+                    image.src = "res/img/cat.jpg";
                     var that = this;
                     image.onload = function () {
                         that.processGraph.addNode(new ProcessGraphNodeViewDecorator(new ImageLoadingNode(image)));
                     };
-                    this.nodePositionsMap = new NodeIdToPositionMap_1.NodeIdToPositionMap(this.processGraph);
                 }
                 ProcessGraphComponent.prototype.ngAfterViewInit = function () {
                     $('select').material_select();
@@ -60,12 +56,7 @@ System.register(['../view model/NodeIdToPositionMap', 'angular2/core', './Proces
                     var classIndex = parseInt($('#node-class-selection').val());
                     var nodeClass = this.availableNodeClassList[classIndex];
                     this.processGraph.addNode(new ProcessGraphNodeViewDecorator(new nodeClass()));
-                    this.nodePositionsMap.update();
                     $('#adding-node-modal').closeModal();
-                };
-                ProcessGraphComponent.prototype.executeProcessGraph = function () {
-                    this.processGraph.execute();
-                    console.log(this.processGraph);
                 };
                 ProcessGraphComponent.prototype.openModal = function () {
                     $('#adding-node-modal').openModal();
@@ -83,12 +74,23 @@ System.register(['../view model/NodeIdToPositionMap', 'angular2/core', './Proces
                         this.jasmineOpened = true;
                     }
                 };
+                ProcessGraphComponent.prototype.toggleMode = function () {
+                    this.displayModeSelected = !this.displayModeSelected;
+                    if (this.displayModeSelected) {
+                        this.processGraph.execute();
+                        $('.draggable').draggable({ disabled: true });
+                    }
+                    else {
+                        this.processGraph.reset();
+                        $('.draggable').draggable({ disabled: false });
+                    }
+                };
                 ProcessGraphComponent = __decorate([
                     core_1.Component({
                         selector: 'process-graph',
                         directives: [ProcessGraphNodeComponent_1.ProcessGraphNodeComponent, ProcessGraphEdgesComponent_1.ProcessGraphEdgesComponent],
                         providers: [],
-                        template: "\n\n      <process-graph-edges\n        [process-graph]=\"processGraph\"\n        [node-positions-map]=\"nodePositionsMap\"\n        [update-event]=\"updateEvent\"\n      ></process-graph-edges>\n\n      <process-graph-node\n        *ngFor=\"#node of processGraph.nodeList; #index = index\"\n        [process-graph-node]=\"node\"\n        [node-positions-map]=\"nodePositionsMap\"\n        [update-event]=\"updateEvent\"\n      ></process-graph-node>\n\n      <div class=\"navbar-fixed\">\n        <nav>\n          <div class=\"nav-wrapper grey lighten-4\">\n            <a href=\"#!\" class=\"brand-logo\"></a>\n            <ul class=\"right hide-on-med-and-down\">\n              <li><a class=\"grey-text text-darken-4\" (click)=\"executeProcessGraph()\">Start</a></li>\n              <li><a class=\"grey-text text-darken-4\" (click)=\"openModal()\">Knoten hinzuf\u00FCgen</a></li>\n              <li><a class=\"grey-text text-darken-4\" (click)=\"toggleJasminePanel()\">Jasmine</a></li>\n            </ul>\n          </div>\n        </nav>\n      </div>\n\n      <div class=\"modal\" id=\"adding-node-modal\">\n        <div class=\"modal-dialog\">\n\n          <!-- Modal content-->\n          <div class=\"modal-content\">\n            <h4 class=\"modal-title\">Neuen Knoten hinzuf\u00FCgen</h4>\n            <br><br>\n            <div class=\"input-field\">\n              <select id=\"node-class-selection\">\n                <option *ngFor=\"#nodeClass of availableNodeClassList; #index = index\"\n                  [attr.value]=\"index\">\n                  {{nodeClass.name}}\n                </option>\n              </select>\n              <label>Kathegorie</label>\n            </div>\n\n            <div class=\"modal-footer\">\n              <a href=\"#\" (click)=\"closeModal()\" class=\"modal-action modal-close waves-effect waves-green btn-flat\">Schlie\u00DFen</a>\n              <button type=\"button\" class=\"btn btn-success\" (click)=\"addNode()\">Hinzuf\u00FCgen</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    "
+                        template: "\n\n      <process-graph-edges\n        [process-graph]=\"processGraph\"\n      ></process-graph-edges>\n\n      <process-graph-node\n        *ngFor=\"#node of processGraph.nodeList; #index = index\"\n        [process-graph-node]=\"node\"\n        [update-event]=\"updateEvent\"\n      ></process-graph-node>\n\n      <div class=\"navbar-fixed\">\n        <nav>\n          <div class=\"nav-wrapper grey lighten-4\">\n            <a href=\"#!\" class=\"brand-logo\"></a>\n            <ul class=\"right hide-on-med-and-down\">\n              <li>\n                <div class=\"switch\">\n                  <label>\n                    Bearbeiten\n                    <input type=\"checkbox\" (click)=\"toggleMode()\">\n                    <span class=\"lever\"></span>\n                    Anzeigen\n                  </label>\n                </div>\n              </li>\n\n              <li><a class=\"grey-text text-darken-4\" (click)=\"openModal()\">Knoten hinzuf\u00FCgen</a></li>\n              <li><a class=\"grey-text text-darken-4\" (click)=\"toggleJasminePanel()\">Jasmine</a></li>\n            </ul>\n          </div>\n        </nav>\n      </div>\n\n      <div class=\"modal\" id=\"adding-node-modal\">\n        <div class=\"modal-dialog\">\n\n          <!-- Modal content-->\n          <div class=\"modal-content\">\n            <h4 class=\"modal-title\">Neuen Knoten hinzuf\u00FCgen</h4>\n            <br><br>\n            <div class=\"input-field\">\n              <select id=\"node-class-selection\">\n                <option *ngFor=\"#nodeClass of availableNodeClassList; #index = index\"\n                  [attr.value]=\"index\">\n                  {{nodeClass.name}}\n                </option>\n              </select>\n              <label>Kathegorie</label>\n            </div>\n\n            <div class=\"modal-footer\">\n              <a href=\"#\" (click)=\"closeModal()\" class=\"modal-action modal-close waves-effect waves-green btn-flat\">Schlie\u00DFen</a>\n              <button type=\"button\" class=\"btn btn-success\" (click)=\"addNode()\">Hinzuf\u00FCgen</button>\n            </div>\n          </div>\n        </div>\n      </div>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], ProcessGraphComponent);

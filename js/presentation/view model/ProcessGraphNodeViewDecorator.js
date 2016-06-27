@@ -18,6 +18,12 @@ var ProcessGraphNodeViewDecorator = (function (_super) {
     ProcessGraphNodeViewDecorator.prototype.getDisplayImage = function () {
         return this.displayImage;
     };
+    ProcessGraphNodeViewDecorator.prototype.setDisplayPosition = function (x, y) {
+        this.displayPosition = { x: x, y: y };
+    };
+    ProcessGraphNodeViewDecorator.prototype.getDisplayPosition = function () {
+        return this.displayPosition();
+    };
     return ProcessGraphNodeViewDecorator;
 }(ProcessGraphNode));
 //# sourceMappingURL=ProcessGraphNodeViewDecorator.js.map

@@ -1,5 +1,5 @@
 
-export class Vector2d
+class Vector2d
 {
   private x : number;
   private y : number;

@@ -1,6 +1,3 @@
-import {NodeIdToPositionMap} from '../view model/NodeIdToPositionMap';
-import {Vector2d} from '../view model/Vector2d';
-
 import {Component, ElementRef, Output, EventEmitter} from 'angular2/core';
 import {Input} from 'angular2/core';
 
@@ -25,20 +22,15 @@ declare var $ : any;
           float: left;
         }
 
-        .draggable
-        {
-          cursor: move;
-        }
-
       </style>
 
       <div class="card draggable">
         <div *ngIf="processGraphNode.isFinished()">
-          <img width="200" height="150" class="materialboxed" [attr.src]="processGraphNode.displayImage.src" (load)="imageLoaded()">
+          <img width="200" height="125" class="materialboxed" [attr.src]="processGraphNode.displayImage.src" (load)="imageLoaded()">
         </div>
 
         <div *ngIf="!processGraphNode.isFinished()">
-          <img width="200" height="150">
+          <img width="200" height="125">
         </div>
 
         <div class="card-content">
@@ -51,7 +43,6 @@ declare var $ : any;
 export class ProcessGraphNodeComponent
 {
   @Input("process-graph-node") processGraphNode;
-  @Input("node-positions-map") nodePositionsMap;
   @Input('update-event') updateEvent;
 
   constructor(public element: ElementRef)
@@ -61,24 +52,15 @@ export class ProcessGraphNodeComponent
 
   setPosition()
   {
-    if(this.nodePositionsMap)
-    {
-      var el = this.element.nativeElement;
-      this.nodePositionsMap.setPosition(
-        this.processGraphNode.getId(),
-        new Vector2d(
-          $(el).children().offset().left,
-          $(el).children().offset().top
-        )
-      );
-    }
+    var el = this.element.nativeElement;
+    let x = $(el).children().offset().left;
+    let y = $(el).children().offset().top;
+    this.processGraphNode.setDisplayPosition(x, y);
   }
 
   ngAfterViewInit()
   {
     let self = this;
-
-    console.log("view init!");
 
     this.updateEvent.subscribe(function()
     {

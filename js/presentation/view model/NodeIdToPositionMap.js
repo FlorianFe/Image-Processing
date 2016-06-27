@@ -1,13 +1,9 @@
-System.register(['./Vector2d'], function(exports_1, context_1) {
+System.register([], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var Vector2d_1;
     var NodeIdToPositionMap;
     return {
-        setters:[
-            function (Vector2d_1_1) {
-                Vector2d_1 = Vector2d_1_1;
-            }],
+        setters:[],
         execute: function() {
             NodeIdToPositionMap = (function () {
                 function NodeIdToPositionMap(processGraph) {
@@ -22,7 +18,7 @@ System.register(['./Vector2d'], function(exports_1, context_1) {
                     }
                 };
                 NodeIdToPositionMap.prototype.addNode = function (node) {
-                    this.positions[node.getId()] = new Vector2d_1.Vector2d(0, 0);
+                    this.positions[node.getId()] = new Vector2d(0, 0);
                 };
                 NodeIdToPositionMap.prototype.getPosition = function (id) {
                     return this.positions[id];

@@ -28,31 +28,37 @@ declare var $ : any;
     <svg style="position: absolute; left:0px; right:0px;" width="1600" height="800">
       <g *ngFor="#edge of processGraph.edgeCollection.edges; #index = index" >
         <line
-          [attr.x1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 200"
-          [attr.y1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 100 + 40 * edge.sourcePin.port"
-          [attr.x2]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 100 + ((nodePositionsMap.getPosition(edge.destinationPin.node.id).x -
-            nodePositionsMap.getPosition(edge.sourcePin.node.id).x)/2)"
-          [attr.y2]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 100 + 40 * edge.sourcePin.port"
+          [attr.x1]="edge.sourcePin.node.displayPosition.x + 200"
+          [attr.y1]="edge.sourcePin.node.displayPosition.y + 100 + 40 * edge.sourcePin.port"
+          [attr.x2]="edge.sourcePin.node.displayPosition.x + 100
+            + ((edge.destinationPin.node.displayPosition.x
+            - edge.sourcePin.node.displayPosition.x)/2)"
+          [attr.y2]="edge.sourcePin.node.displayPosition.y + 100 + 40 * edge.sourcePin.port"
           style="stroke:rgb(55,55,55);stroke-width:2"/>
 
         <line
-          [attr.x1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 100 +
-            ((nodePositionsMap.getPosition(edge.destinationPin.node.id).x
-            - nodePositionsMap.getPosition(edge.sourcePin.node.id).x)/2)"
+          [attr.x1]="edge.sourcePin.node.displayPosition.x + 100
+            + ((edge.destinationPin.node.displayPosition.x
+            - edge.sourcePin.node.displayPosition.x)/2)"
 
-          [attr.y1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 100 + 40 * edge.sourcePin.port"
-          [attr.x2]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 100 +
-            ((nodePositionsMap.getPosition(edge.destinationPin.node.id).x
-            - nodePositionsMap.getPosition(edge.sourcePin.node.id).x)/2)"
+          [attr.y1]="edge.sourcePin.node.displayPosition.y + 100 + 40 * edge.sourcePin.port"
+          [attr.x2]="edge.sourcePin.node.displayPosition.x + 100
+            + ((edge.destinationPin.node.displayPosition.x
+            - edge.sourcePin.node.displayPosition.x)/2)"
 
-          [attr.y2]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 100 + 40 * edge.destinationPin.port"
+          [attr.y2]="edge.destinationPin.node.displayPosition.y + 100
+            + 40 * edge.destinationPin.port"
+
           style="stroke:rgb(55,55,55);stroke-width:2"/>
 
         <line
-          [attr.x1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 100 + ((nodePositionsMap.getPosition(edge.destinationPin.node.id).x - nodePositionsMap.getPosition(edge.sourcePin.node.id).x)/2)"
-          [attr.y1]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 100 + 40 * edge.destinationPin.port"
-          [attr.x2]="nodePositionsMap.getPosition(edge.destinationPin.node.id).x + 0"
-          [attr.y2]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 100 + 40 * edge.destinationPin.port"
+          [attr.x1]="edge.sourcePin.node.displayPosition.x + 100
+            + ((edge.destinationPin.node.displayPosition.x
+            - edge.sourcePin.node.displayPosition.x)/2)"
+
+          [attr.y1]="edge.destinationPin.node.displayPosition.y + 100 + 40 * edge.destinationPin.port"
+          [attr.x2]="edge.destinationPin.node.displayPosition.x + 0"
+          [attr.y2]="edge.destinationPin.node.displayPosition.y + 100 + 40 * edge.destinationPin.port"
           style="stroke:rgb(55,55,55);stroke-width:2"/>
       </g>
 
@@ -60,8 +66,8 @@ declare var $ : any;
         <g *ngFor="#number of getNumbers(node.numberOutputPorts); #j = index">
           <rect
             (click)="onClickOfOutputPort(i, j)"
-            [attr.x]="nodePositionsMap.getPosition(node.id).x + 190"
-            [attr.y]="nodePositionsMap.getPosition(node.id).y + 90 + j*40"
+            [attr.x]="node.displayPosition.x + 190"
+            [attr.y]="node.displayPosition.y + 90 + j*40"
             width="20" height="20"
             class="unconnected-port"
           />
@@ -70,8 +76,8 @@ declare var $ : any;
         <g *ngFor="#number of getNumbers(node.numberInputPorts); #j = index">
           <rect
             (click)="onClickOfInputPort(i, j)"
-            [attr.x]="nodePositionsMap.getPosition(node.id).x - 10"
-            [attr.y]="nodePositionsMap.getPosition(node.id).y + 90 + j*40"
+            [attr.x]="node.displayPosition.x - 10"
+            [attr.y]="node.displayPosition.y + 90 + j*40"
             width="20" height="20"
             class="unconnected-port"
           />
@@ -81,8 +87,8 @@ declare var $ : any;
       <g *ngFor="#edge of processGraph.edgeCollection.edges; #i = index" >
         <g>
           <rect
-            [attr.x]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 190"
-            [attr.y]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 90 + edge.sourcePin.port*40"
+            [attr.x]="edge.sourcePin.node.displayPosition.x + 190"
+            [attr.y]="edge.sourcePin.node.displayPosition.y + 90 + edge.sourcePin.port*40"
             width="20" height="20"
             class="connected-port"
           />
@@ -90,8 +96,8 @@ declare var $ : any;
 
         <g>
           <rect
-            [attr.x]="nodePositionsMap.getPosition(edge.destinationPin.node.id).x - 10"
-            [attr.y]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 90 + edge.destinationPin.port*40"
+            [attr.x]="edge.destinationPin.node.displayPosition.x - 10"
+            [attr.y]="edge.destinationPin.node.displayPosition.y + 90 + edge.destinationPin.port*40"
             width="20" height="20"
             class="connected-port"
           />
@@ -105,8 +111,6 @@ declare var $ : any;
 export class ProcessGraphEdgesComponent
 {
   @Input("process-graph") processGraph;
-  @Input("node-positions-map") nodePositionsMap;
-  @Input('update-event') updateEvent;
 
   private lastOutputPinClicked : any;
 
@@ -141,7 +145,6 @@ export class ProcessGraphEdgesComponent
 
       this.processGraph.connectNodePins(outputNodePin, inputNodePin);
       this.lastOutputPinClicked = null;
-      this.updateEvent.emit({});
     }
   }
 

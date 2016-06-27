@@ -1,5 +1,3 @@
-import {NodeIdToPositionMap} from '../view model/NodeIdToPositionMap';
-
 import {Component, EventEmitter} from 'angular2/core';
 import {ProcessGraphNodeComponent} from './ProcessGraphNodeComponent';
 import {ProcessGraphEdgesComponent} from './ProcessGraphEdgesComponent';
@@ -14,14 +12,11 @@ declare var $ : any;
 
       <process-graph-edges
         [process-graph]="processGraph"
-        [node-positions-map]="nodePositionsMap"
-        [update-event]="updateEvent"
       ></process-graph-edges>
 
       <process-graph-node
         *ngFor="#node of processGraph.nodeList; #index = index"
         [process-graph-node]="node"
-        [node-positions-map]="nodePositionsMap"
         [update-event]="updateEvent"
       ></process-graph-node>
 
@@ -30,7 +25,17 @@ declare var $ : any;
           <div class="nav-wrapper grey lighten-4">
             <a href="#!" class="brand-logo"></a>
             <ul class="right hide-on-med-and-down">
-              <li><a class="grey-text text-darken-4" (click)="executeProcessGraph()">Start</a></li>
+              <li>
+                <div class="switch">
+                  <label>
+                    Bearbeiten
+                    <input type="checkbox" (click)="toggleMode()">
+                    <span class="lever"></span>
+                    Anzeigen
+                  </label>
+                </div>
+              </li>
+
               <li><a class="grey-text text-darken-4" (click)="openModal()">Knoten hinzufügen</a></li>
               <li><a class="grey-text text-darken-4" (click)="toggleJasminePanel()">Jasmine</a></li>
             </ul>
@@ -68,10 +73,10 @@ declare var $ : any;
 export class ProcessGraphComponent
 {
   private processGraph;
-  private nodePositionsMap;
   private updateEvent;
 
   private jasmineOpened;
+  private displayModeSelected;
 
   private availableNodeClassList;
 
@@ -84,15 +89,13 @@ export class ProcessGraphComponent
     this.jasmineOpened = false;
 
     let image = new Image();
-    image.src = "res/img/dices.gif";
+    image.src = "res/img/cat.jpg";
 
     let that = this;
     image.onload = function()
     {
       that.processGraph.addNode(new ProcessGraphNodeViewDecorator(new ImageLoadingNode(image)));
     }
-
-    this.nodePositionsMap = new NodeIdToPositionMap(this.processGraph);
   }
 
   ngAfterViewInit()
@@ -125,15 +128,7 @@ export class ProcessGraphComponent
     let nodeClass = this.availableNodeClassList[classIndex];
     this.processGraph.addNode(new ProcessGraphNodeViewDecorator(new nodeClass()));
 
-    this.nodePositionsMap.update();
-
     $('#adding-node-modal').closeModal();
-  }
-
-  executeProcessGraph()
-  {
-    this.processGraph.execute();
-    console.log(this.processGraph);
   }
 
   openModal()
@@ -157,6 +152,22 @@ export class ProcessGraphComponent
     {
       $('.jasmine_html-reporter').show();
       this.jasmineOpened = true;
+    }
+  }
+
+  toggleMode()
+  {
+    this.displayModeSelected = !this.displayModeSelected;
+
+    if(this.displayModeSelected)
+    {
+      this.processGraph.execute();
+      $('.draggable').draggable({ disabled: true });
+    }
+    else
+    {
+      this.processGraph.reset();
+      $('.draggable').draggable({ disabled: false });
     }
   }
 }
