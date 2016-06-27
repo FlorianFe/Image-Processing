@@ -37,7 +37,7 @@ System.register(['../view model/NodeIdToPositionMap', 'angular2/core', './Proces
                     image.src = "res/img/dices.gif";
                     var that = this;
                     image.onload = function () {
-                        that.processGraph.addNode(new ImageLoadingNode(image));
+                        that.processGraph.addNode(new ProcessGraphNodeViewDecorator(new ImageLoadingNode(image)));
                     };
                     this.nodePositionsMap = new NodeIdToPositionMap_1.NodeIdToPositionMap(this.processGraph);
                 }
@@ -56,18 +56,16 @@ System.register(['../view model/NodeIdToPositionMap', 'angular2/core', './Proces
                     classes.push(CloneNode);
                     return classes;
                 };
-                ProcessGraphComponent.prototype.play = function () {
-                    this.processGraph.execute();
-                };
                 ProcessGraphComponent.prototype.addNode = function () {
                     var classIndex = parseInt($('#node-class-selection').val());
                     var nodeClass = this.availableNodeClassList[classIndex];
-                    this.processGraph.addNode(new nodeClass());
+                    this.processGraph.addNode(new ProcessGraphNodeViewDecorator(new nodeClass()));
                     this.nodePositionsMap.update();
                     $('#adding-node-modal').closeModal();
                 };
                 ProcessGraphComponent.prototype.executeProcessGraph = function () {
                     this.processGraph.execute();
+                    console.log(this.processGraph);
                 };
                 ProcessGraphComponent.prototype.openModal = function () {
                     $('#adding-node-modal').openModal();

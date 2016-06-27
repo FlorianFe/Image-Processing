@@ -89,7 +89,7 @@ export class ProcessGraphComponent
     let that = this;
     image.onload = function()
     {
-      that.processGraph.addNode(new ImageLoadingNode(image));
+      that.processGraph.addNode(new ProcessGraphNodeViewDecorator(new ImageLoadingNode(image)));
     }
 
     this.nodePositionsMap = new NodeIdToPositionMap(this.processGraph);
@@ -119,16 +119,11 @@ export class ProcessGraphComponent
     return classes;
   }
 
-  play()
-  {
-    this.processGraph.execute();
-  }
-
   addNode()
   {
     let classIndex = parseInt($('#node-class-selection').val());
     let nodeClass = this.availableNodeClassList[classIndex];
-    this.processGraph.addNode(new nodeClass());
+    this.processGraph.addNode(new ProcessGraphNodeViewDecorator(new nodeClass()));
 
     this.nodePositionsMap.update();
 
@@ -138,6 +133,7 @@ export class ProcessGraphComponent
   executeProcessGraph()
   {
     this.processGraph.execute();
+    console.log(this.processGraph);
   }
 
   openModal()

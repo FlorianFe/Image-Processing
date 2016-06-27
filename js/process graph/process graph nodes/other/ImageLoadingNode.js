@@ -9,7 +9,7 @@ var ImageLoadingNode = (function (_super) {
         _super.call(this, "Image Loading", 0, 1);
         this.resultColorMap = ImageToColorMapParser.parse(image);
     }
-    ImageLoadingNode.prototype.calculate = function () {
+    ImageLoadingNode.prototype.calculate = function (values) {
         return [this.resultColorMap];
     };
     return ImageLoadingNode;

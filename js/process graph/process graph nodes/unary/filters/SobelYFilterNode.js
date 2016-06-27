@@ -7,18 +7,11 @@ var SobelYFilterNode = (function (_super) {
     __extends(SobelYFilterNode, _super);
     function SobelYFilterNode() {
         _super.call(this, "Sobel-Y Filter", 1, 1);
-        this.resultColorMap = null;
     }
-    SobelYFilterNode.prototype.calculate = function () {
-        var sourceColorMap = this.getValueFromInputPort(0);
+    SobelYFilterNode.prototype.calculate = function (values) {
+        var sourceColorMap = values[0];
         var resultColorMap = (new SobelYFilter()).convolute(sourceColorMap);
-        this.resultColorMap = resultColorMap;
-        this.setValueToOutputPort(0, resultColorMap);
-        console.log(resultColorMap);
-        // Display
-        var image = ColorMapToImageParser.parse(this.resultColorMap);
-        image.width = 200;
-        this.displayElement = image;
+        return [resultColorMap];
     };
     return SobelYFilterNode;
 }(ProcessGraphNode));

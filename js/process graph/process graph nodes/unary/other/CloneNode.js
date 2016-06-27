@@ -7,18 +7,11 @@ var CloneNode = (function (_super) {
     __extends(CloneNode, _super);
     function CloneNode() {
         _super.call(this, "Clone", 1, 2);
-        this.resultColorMap = null;
     }
-    CloneNode.prototype.calculate = function () {
-        var sourceColorMap = this.getValueFromInputPort(0);
-        this.resultColorMap = sourceColorMap;
-        this.setValueToOutputPort(0, this.resultColorMap);
-        this.setValueToOutputPort(1, this.resultColorMap);
-        console.log(this.resultColorMap);
-        // Display
-        var image = ColorMapToImageParser.parse(this.resultColorMap);
-        image.width = 200;
-        this.displayElement = image;
+    CloneNode.prototype.calculate = function (values) {
+        var sourceColorMap = values[0];
+        var resultColorMap = sourceColorMap;
+        return [resultColorMap, resultColorMap];
     };
     return CloneNode;
 }(ProcessGraphNode));

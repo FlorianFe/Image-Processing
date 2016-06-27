@@ -1,27 +1,16 @@
 
 class CloneNode extends ProcessGraphNode
 {
-  private resultColorMap : ColorMap;
-
   constructor()
   {
     super("Clone", 1, 2);
-    this.resultColorMap = null;
   }
 
-  protected calculate()
+  protected calculate(values : Array<any>) : Array<any>
   {
-    let sourceColorMap = this.getValueFromInputPort(0);
-
-    this.resultColorMap = sourceColorMap;
-    this.setValueToOutputPort(0, this.resultColorMap);
-    this.setValueToOutputPort(1, this.resultColorMap);
-
-    console.log(this.resultColorMap);
-
-    // Display
-    let image = ColorMapToImageParser.parse(this.resultColorMap);
-    image.width = 200;
-    this.displayElement = image;
+    let sourceColorMap = values[0];
+    let resultColorMap = sourceColorMap;
+    
+    return [resultColorMap, resultColorMap]
   }
 }

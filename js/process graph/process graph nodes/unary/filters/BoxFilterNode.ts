@@ -6,10 +6,11 @@ class BoxFilterNode extends ProcessGraphNode
     super("Box Filter", 1, 1);
   }
 
-  protected calculate(values : Array<any>)
+  protected calculate(values : Array<any>) : Array<any>
   {
     let sourceColorMap = values[0];
     let resultColorMap = (new BoxFilter()).convolute(sourceColorMap);
+
     return [resultColorMap];
   }
 }

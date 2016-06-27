@@ -1,8 +1,6 @@
 import {NodeIdToPositionMap} from '../view model/NodeIdToPositionMap';
 import {Vector2d} from '../view model/Vector2d';
 
-import {ColorMapToImageParser} from '../../parsers/ColorMapToImageParser';
-
 import {Component, ElementRef, Output, EventEmitter} from 'angular2/core';
 import {Input} from 'angular2/core';
 
@@ -36,7 +34,7 @@ declare var $ : any;
 
       <div class="card draggable">
         <div *ngIf="processGraphNode.isFinished()">
-          <img width="200" height="150" [attr.src]="colorMapToImage(processGraphNode.results[0]).src">
+          <img width="200" height="150" class="materialboxed" [attr.src]="processGraphNode.displayImage.src" (load)="imageLoaded()">
         </div>
 
         <div *ngIf="!processGraphNode.isFinished()">
@@ -101,10 +99,11 @@ export class ProcessGraphNodeComponent
         {
           self.updateEvent.emit({});
           self.setPosition();
-          //$('.draggable').click();
+          $('.draggable').click();
         }
       });
     }
+
     self.updateEvent.emit({});
   }
 
@@ -114,9 +113,11 @@ export class ProcessGraphNodeComponent
    this.setPosition();
   }
 
-  colorMapToImage(colorMap)
+  imageLoaded()
   {
-    let image = ColorMapToImageParser.parse(colorMap);
-    return image;
+    $(document).ready(function()
+    {
+      $('.materialboxed').materialbox();
+    });
   }
 }

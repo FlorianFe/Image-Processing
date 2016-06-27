@@ -78,4 +78,14 @@ abstract class ProcessGraphNode
   {
     return this.id;
   }
+
+  public getName()
+  {
+    return this.name;
+  }
+
+  public getOutputSize()
+  {
+    return this.numberOutputPorts;
+  }
 }

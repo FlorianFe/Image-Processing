@@ -7,23 +7,16 @@ var ErosionNode = (function (_super) {
     __extends(ErosionNode, _super);
     function ErosionNode() {
         _super.call(this, "Erosion", 1, 1);
-        this.resultColorMap = null;
     }
-    ErosionNode.prototype.calculate = function () {
+    ErosionNode.prototype.calculate = function (values) {
         var structuringElement = new StructuringElement([
             [true, true, true],
             [true, true, true],
             [true, true, true]
         ]);
-        var sourceColorMap = this.getValueFromInputPort(0);
+        var sourceColorMap = values[0];
         var resultColorMap = (new Erosion(structuringElement)).convolute(sourceColorMap);
-        this.resultColorMap = resultColorMap;
-        this.setValueToOutputPort(0, resultColorMap);
-        console.log(resultColorMap);
-        // Display
-        var image = ColorMapToImageParser.parse(this.resultColorMap);
-        image.width = 200;
-        this.displayElement = image;
+        return [resultColorMap];
     };
     return ErosionNode;
 }(ProcessGraphNode));

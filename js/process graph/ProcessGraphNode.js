@@ -42,6 +42,12 @@ var ProcessGraphNode = (function () {
     ProcessGraphNode.prototype.getId = function () {
         return this.id;
     };
+    ProcessGraphNode.prototype.getName = function () {
+        return this.name;
+    };
+    ProcessGraphNode.prototype.getOutputSize = function () {
+        return this.numberOutputPorts;
+    };
     ProcessGraphNode.COUNTER = 0;
     return ProcessGraphNode;
 }());

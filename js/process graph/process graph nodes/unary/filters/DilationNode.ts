@@ -1,15 +1,12 @@
 
 class DilationNode extends ProcessGraphNode
 {
-  private resultColorMap : ColorMap;
-
   constructor()
   {
     super("Dilation", 1, 1);
-    this.resultColorMap = null;
   }
 
-  protected calculate()
+  protected calculate(values : Array<any>) : Array<any>
   {
     let structuringElement = new StructuringElement(
     [
@@ -18,15 +15,9 @@ class DilationNode extends ProcessGraphNode
       [true, true, true]
     ]);
 
-    let sourceColorMap = this.getValueFromInputPort(0);
-    let resultColorMap = (new Dilation(structuringElement)).convolute(sourceColorMap);
-    this.resultColorMap = resultColorMap;
-    this.setValueToOutputPort(0, resultColorMap);
-    console.log(resultColorMap);
+    let sourceColorMap = values[0];
+    let resultColorMap = (new Dilation(structuringElement)).convolute(sourceColorMap)
 
-    // Display
-    let image = ColorMapToImageParser.parse(this.resultColorMap);
-    image.width = 200;
-    this.displayElement = image;
+    return [resultColorMap];
   }
 }

@@ -7,23 +7,16 @@ var DilationNode = (function (_super) {
     __extends(DilationNode, _super);
     function DilationNode() {
         _super.call(this, "Dilation", 1, 1);
-        this.resultColorMap = null;
     }
-    DilationNode.prototype.calculate = function () {
+    DilationNode.prototype.calculate = function (values) {
         var structuringElement = new StructuringElement([
             [true, true, true],
             [true, true, true],
             [true, true, true]
         ]);
-        var sourceColorMap = this.getValueFromInputPort(0);
+        var sourceColorMap = values[0];
         var resultColorMap = (new Dilation(structuringElement)).convolute(sourceColorMap);
-        this.resultColorMap = resultColorMap;
-        this.setValueToOutputPort(0, resultColorMap);
-        console.log(resultColorMap);
-        // Display
-        var image = ColorMapToImageParser.parse(this.resultColorMap);
-        image.width = 200;
-        this.displayElement = image;
+        return [resultColorMap];
     };
     return DilationNode;
 }(ProcessGraphNode));

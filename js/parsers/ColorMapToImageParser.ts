@@ -1,5 +1,5 @@
 
-export class ColorMapToImageParser
+class ColorMapToImageParser
 {
   static parse(colorMap : ColorMap, callback? : any)
   {
