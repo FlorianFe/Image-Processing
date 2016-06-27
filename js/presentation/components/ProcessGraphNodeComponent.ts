@@ -73,7 +73,6 @@ export class ProcessGraphNodeComponent
         )
       );
     }
-    console.log("pos changed");
   }
 
   ngAfterViewInit()

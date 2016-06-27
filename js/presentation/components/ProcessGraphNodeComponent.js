@@ -31,7 +31,6 @@ System.register(['../view model/Vector2d', 'angular2/core'], function(exports_1,
                         var el = this.element.nativeElement;
                         this.nodePositionsMap.setPosition(this.processGraphNode.getId(), new Vector2d_1.Vector2d($(el).children().offset().left, $(el).children().offset().top));
                     }
-                    console.log("pos changed");
                 };
                 ProcessGraphNodeComponent.prototype.ngAfterViewInit = function () {
                     var self = this;

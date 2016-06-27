@@ -50,54 +50,49 @@ declare var $ : any;
           style="stroke:rgb(55,55,55);stroke-width:2"/>
       </g>
 -->
+
+
       <g *ngFor="#node of processGraph.nodeList; #i = index" >
-        <g *ngFor="#number of getNumbers(node.numberInputPorts); #j = index">
-          <rect
-            (click)="onClickOfInputPort(0, 0)"
-            [attr.x]="nodePositionsMap.getPosition(node.id).x - 10"
-            [attr.y]="nodePositionsMap.getPosition(node.id).y + 90 + j*40"
-            width="20"
-            height="20"
-            class="unconnected-port"
-            />
-        </g>
-
-        <line x1="0" x2="100" y1="0" y2="100"></line>
-
         <g *ngFor="#number of getNumbers(node.numberOutputPorts); #j = index">
           <rect
-            (click)="onClickOfOutputPort(0, 0)"
+            (click)="onClickOfOutputPort(i, j)"
             [attr.x]="nodePositionsMap.getPosition(node.id).x + 190"
             [attr.y]="nodePositionsMap.getPosition(node.id).y + 90 + j*40"
-            width="20"
-            height="20"
+            width="20" height="20"
             class="unconnected-port"
-            />
+          />
+        </g>
+
+        <g *ngFor="#number of getNumbers(node.numberInputPorts); #j = index">
+          <rect
+            (click)="onClickOfInputPort(i, j)"
+            [attr.x]="nodePositionsMap.getPosition(node.id).x - 10"
+            [attr.y]="nodePositionsMap.getPosition(node.id).y + 90 + j*40"
+            width="20" height="20"
+            class="unconnected-port"
+          />
         </g>
       </g>
-<!--
+
       <g *ngFor="#edge of processGraph.edgeCollection.edges; #i = index" >
         <g>
           <rect
-            (click)="onClickOfInputPort(0, 0)"
-            [attr.x]="nodePositionsMap.getPosition(edge.destinationPin.node.id).x - 10"
-            [attr.y]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 90 + j*40"
-            width="20"
-            height="20"/>
+            [attr.x]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 190"
+            [attr.y]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 90 + edge.sourcePin.port*40"
+            width="20" height="20"
+            class="connected-port"
+          />
         </g>
-
-        <line x1="0" x2="100" y1="0" y2="100"></line>
 
         <g>
           <rect
-            (click)="onClickOfOutputPort(0, 0)"
-            [attr.x]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 190"
-            [attr.y]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 90 + j*40"
-            width="20"
-            height="20" />
+            [attr.x]="nodePositionsMap.getPosition(edge.destinationPin.node.id).x - 10"
+            [attr.y]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 90 + edge.destinationPin.port*40"
+            width="20" height="20"
+            class="connected-port"
+          />
         </g>
       </g>
--->
     </svg>
 
     `
@@ -109,11 +104,11 @@ export class ProcessGraphEdgesComponent
   @Input("node-positions-map") nodePositionsMap;
   @Input('update-event') updateEvent;
 
-  private lastOutputPortClicked : any;
+  private lastOutputPinClicked : any;
 
   constructor()
   {
-    this.lastOutputPortClicked = null;
+    this.lastOutputPinClicked = null;
   }
 
   getNumbers(num : number)
@@ -133,30 +128,22 @@ export class ProcessGraphEdgesComponent
 
   onClickOfInputPort(nodeIndex, portIndex)
   {
-    if(this.lastOutputPortClicked)
+    if(this.lastOutputPinClicked !== null)
     {
-      let outputNodeIndex = this.lastOutputPortClicked.nodeIndex;
-      let outputPortIndex = this.lastOutputPortClicked.portIndex;
-      let inputNodeIndex = nodeIndex;
-      let inputPortIndex = portIndex;
+      let outputNodePin = this.lastOutputPinClicked;
 
-      this.processGraph.connectNodes(outputNodeIndex, inputNodeIndex, outputPortIndex, inputPortIndex);
-      this.lastOutputPortClicked = null;
+      let inputNode = this.processGraph.getNode(nodeIndex);
+      let inputNodePin = new ProcessGraphNodePin(inputNode, portIndex);
+
+      this.processGraph.connectNodePins(outputNodePin, inputNodePin);
+      this.lastOutputPinClicked = null;
       this.updateEvent.emit({});
-
-      let destinationNode = this.processGraph.getNode(inputNodeIndex);
-
-      let self = this;
-      $('#loading').fadeIn("slow", function()
-      {
-        destinationNode.execute();
-        $(this).fadeOut(3000);
-      });
     }
   }
 
   onClickOfOutputPort(nodeIndex, portIndex)
   {
-    this.lastOutputPortClicked = {nodeIndex : nodeIndex, portIndex : portIndex};
+    let node = this.processGraph.getNode(nodeIndex);
+    this.lastOutputPinClicked = new ProcessGraphNodePin(node, portIndex);
   }
 }

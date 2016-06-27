@@ -37,6 +37,9 @@ var ProcessGraph = (function () {
     ProcessGraph.prototype.getNodes = function () {
         return this.nodeList;
     };
+    ProcessGraph.prototype.getNode = function (index) {
+        return this.nodeList[index];
+    };
     return ProcessGraph;
 }());
 //# sourceMappingURL=ProcessGraph.js.map

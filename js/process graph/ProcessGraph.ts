@@ -62,4 +62,9 @@ class ProcessGraph
   {
     return this.nodeList;
   }
+
+  public getNode(index : number)
+  {
+    return this.nodeList[index];
+  }
 }
