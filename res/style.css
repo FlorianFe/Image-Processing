@@ -8,7 +8,8 @@ body
 {
   background-image: url("http://aareinformatik.ch/fileadmin/tutorials/drag-and-drop/img/bg.png");
   left: 0px;
-  top: 0px:
+  top: 0px;
+  overflow-x: hidden;
 }
 
 .jasmine_html-reporter

@@ -22,21 +22,21 @@ declare var $ : any;
         *ngFor="#node of processGraph.nodeList; #index = index"
         [process-graph-node]="node"
         [node-positions-map]="nodePositionsMap"
-        [node-index]="index"
         [update-event]="updateEvent"
       ></process-graph-node>
 
       <div class="navbar-fixed">
-       <nav>
-         <div class="nav-wrapper grey lighten-4">
-           <a href="#!" class="brand-logo"></a>
-           <ul class="right hide-on-med-and-down">
-             <li><a class="grey-text text-darken-4" (click)="openModal()">Knoten hinzufügen</a></li>
-             <li><a class="grey-text text-darken-4" (click)="toggleJasminePanel()">Jasmine</a></li>
-           </ul>
-         </div>
-       </nav>
-     </div>
+        <nav>
+          <div class="nav-wrapper grey lighten-4">
+            <a href="#!" class="brand-logo"></a>
+            <ul class="right hide-on-med-and-down">
+              <li><a class="grey-text text-darken-4" (click)="executeProcessGraph()">Start</a></li>
+              <li><a class="grey-text text-darken-4" (click)="openModal()">Knoten hinzufügen</a></li>
+              <li><a class="grey-text text-darken-4" (click)="toggleJasminePanel()">Jasmine</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
 
       <div class="modal" id="adding-node-modal">
         <div class="modal-dialog">
@@ -133,6 +133,11 @@ export class ProcessGraphComponent
     this.nodePositionsMap.update();
 
     $('#adding-node-modal').closeModal();
+  }
+
+  executeProcessGraph()
+  {
+    this.processGraph.execute();
   }
 
   openModal()

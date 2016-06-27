@@ -1,6 +1,8 @@
 import {NodeIdToPositionMap} from '../view model/NodeIdToPositionMap';
 import {Vector2d} from '../view model/Vector2d';
 
+import {ColorMapToImageParser} from '../../parsers/ColorMapToImageParser';
+
 import {Component, ElementRef, Output, EventEmitter} from 'angular2/core';
 import {Input} from 'angular2/core';
 
@@ -34,7 +36,7 @@ declare var $ : any;
 
       <div class="card draggable">
         <div *ngIf="processGraphNode.isFinished()">
-          <img width="200" height="150">
+          <img width="200" height="150" [attr.src]="colorMapToImage(processGraphNode.results[0]).src">
         </div>
 
         <div *ngIf="!processGraphNode.isFinished()">
@@ -52,7 +54,6 @@ export class ProcessGraphNodeComponent
 {
   @Input("process-graph-node") processGraphNode;
   @Input("node-positions-map") nodePositionsMap;
-  @Input("node-index") nodeIndex;
   @Input('update-event') updateEvent;
 
   constructor(public element: ElementRef)
@@ -79,6 +80,8 @@ export class ProcessGraphNodeComponent
   {
     let self = this;
 
+    console.log("view init!");
+
     this.updateEvent.subscribe(function()
     {
       self.setPosition();
@@ -98,7 +101,7 @@ export class ProcessGraphNodeComponent
         {
           self.updateEvent.emit({});
           self.setPosition();
-          $('body').click();
+          //$('.draggable').click();
         }
       });
     }
@@ -109,5 +112,11 @@ export class ProcessGraphNodeComponent
   {
    var el = this.element.nativeElement;
    this.setPosition();
+  }
+
+  colorMapToImage(colorMap)
+  {
+    let image = ColorMapToImageParser.parse(colorMap);
+    return image;
   }
 }

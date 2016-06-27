@@ -26,31 +26,35 @@ declare var $ : any;
 
     </style>
     <svg style="position: absolute; left:0px; right:0px;" width="1600" height="800">
-<!--
-      <g *ngFor="#edge of edges; #index = index" >
+      <g *ngFor="#edge of processGraph.edgeCollection.edges; #index = index" >
         <line
-          [attr.x1]="edge.sourceNodePosition.x + 200"
-          [attr.y1]="edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex"
-          [attr.x2]="edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)"
-          [attr.y2]="edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex"
+          [attr.x1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 200"
+          [attr.y1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 100 + 40 * edge.sourcePin.port"
+          [attr.x2]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 100 + ((nodePositionsMap.getPosition(edge.destinationPin.node.id).x -
+            nodePositionsMap.getPosition(edge.sourcePin.node.id).x)/2)"
+          [attr.y2]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 100 + 40 * edge.sourcePin.port"
           style="stroke:rgb(55,55,55);stroke-width:2"/>
 
         <line
-          [attr.x1]="edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)"
-          [attr.y1]="edge.sourceNodePosition.y + 100 + 40 * edge.sourcePortIndex"
-          [attr.x2]="edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)"
-          [attr.y2]="edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex"
+          [attr.x1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 100 +
+            ((nodePositionsMap.getPosition(edge.destinationPin.node.id).x
+            - nodePositionsMap.getPosition(edge.sourcePin.node.id).x)/2)"
+
+          [attr.y1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).y + 100 + 40 * edge.sourcePin.port"
+          [attr.x2]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 100 +
+            ((nodePositionsMap.getPosition(edge.destinationPin.node.id).x
+            - nodePositionsMap.getPosition(edge.sourcePin.node.id).x)/2)"
+
+          [attr.y2]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 100 + 40 * edge.destinationPin.port"
           style="stroke:rgb(55,55,55);stroke-width:2"/>
 
         <line
-          [attr.x1]="edge.sourceNodePosition.x + 100 + ((edge.destinationNodePosition.x - edge.sourceNodePosition.x)/2)"
-          [attr.y1]="edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex"
-          [attr.x2]="edge.destinationNodePosition.x + 0"
-          [attr.y2]="edge.destinationNodePosition.y + 100 + 40 * edge.destinationPortIndex"
+          [attr.x1]="nodePositionsMap.getPosition(edge.sourcePin.node.id).x + 100 + ((nodePositionsMap.getPosition(edge.destinationPin.node.id).x - nodePositionsMap.getPosition(edge.sourcePin.node.id).x)/2)"
+          [attr.y1]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 100 + 40 * edge.destinationPin.port"
+          [attr.x2]="nodePositionsMap.getPosition(edge.destinationPin.node.id).x + 0"
+          [attr.y2]="nodePositionsMap.getPosition(edge.destinationPin.node.id).y + 100 + 40 * edge.destinationPin.port"
           style="stroke:rgb(55,55,55);stroke-width:2"/>
       </g>
--->
-
 
       <g *ngFor="#node of processGraph.nodeList; #i = index" >
         <g *ngFor="#number of getNumbers(node.numberOutputPorts); #j = index">
