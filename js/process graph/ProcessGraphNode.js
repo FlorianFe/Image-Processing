@@ -6,8 +6,6 @@ var ProcessGraphNode = (function () {
         this.numberInputPorts = numberInputPorts;
         this.numberOutputPorts = numberOutputPorts;
         this.results = this.createArrayWithNullValues(numberOutputPorts);
-        this.id = ProcessGraphNode.COUNTER;
-        ProcessGraphNode.COUNTER++;
     }
     ProcessGraphNode.prototype.createArrayWithNullValues = function (length) {
         console.assert(length % 1 === 0, "Length of Array has to be a integer.");
@@ -39,16 +37,12 @@ var ProcessGraphNode = (function () {
     ProcessGraphNode.prototype.calculate = function (values) {
         throw Error("'calculate' should be implemented in sub - classes!");
     };
-    ProcessGraphNode.prototype.getId = function () {
-        return this.id;
-    };
     ProcessGraphNode.prototype.getName = function () {
         return this.name;
     };
     ProcessGraphNode.prototype.getOutputSize = function () {
         return this.numberOutputPorts;
     };
-    ProcessGraphNode.COUNTER = 0;
     return ProcessGraphNode;
 }());
 //# sourceMappingURL=ProcessGraphNode.js.map

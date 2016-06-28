@@ -6,9 +6,6 @@ abstract class ProcessGraphNode
   private numberOutputPorts : number;
   private results : Array<any>;
 
-  private static COUNTER : number = 0;
-  private id : number;
-
   constructor(name : string, numberInputPorts : number, numberOutputPorts : number)
   {
     console.assert(numberInputPorts % 1 === 0, "Number of Input Ports has to be a integer.");
@@ -19,9 +16,6 @@ abstract class ProcessGraphNode
     this.numberOutputPorts = numberOutputPorts;
 
     this.results = this.createArrayWithNullValues(numberOutputPorts);
-
-    this.id = ProcessGraphNode.COUNTER;
-    ProcessGraphNode.COUNTER++;
   }
 
   private createArrayWithNullValues(length : number)
@@ -72,11 +66,6 @@ abstract class ProcessGraphNode
   protected calculate(values : Array<any>) : Array<any>
   {
     throw Error("'calculate' should be implemented in sub - classes!");
-  }
-
-  public getId()
-  {
-    return this.id;
   }
 
   public getName()

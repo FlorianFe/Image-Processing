@@ -33,12 +33,16 @@
 
     <script src="js/process graph/process graph nodes/other/ImageLoadingNode.js"></script>
 
-    <script src="js/process graph/process graph nodes/unary/filters/BoxFilterNode.js"></script>
-    <script src="js/process graph/process graph nodes/unary/filters/SobelYFilterNode.js"></script>
-    <script src="js/process graph/process graph nodes/unary/filters/LaplacianOfGaussianNode.js"></script>
+    <script src="js/process graph/process graph nodes/unary/filters/blurring/BoxFilterNode.js"></script>
 
-    <script src="js/process graph/process graph nodes/unary/filters/ErosionNode.js"></script>
-    <script src="js/process graph/process graph nodes/unary/filters/DilationNode.js"></script>
+    <script src="js/process graph/process graph nodes/unary/filters/derivative/SobelYFilterNode.js"></script>
+    <script src="js/process graph/process graph nodes/unary/filters/derivative/LaplacianOfGaussianNode.js"></script>
+
+    <script src="js/process graph/process graph nodes/unary/filters/morphologic/ErosionNode.js"></script>
+    <script src="js/process graph/process graph nodes/unary/filters/morphologic/DilationNode.js"></script>
+
+    <script src="js/process graph/process graph nodes/unary/transformations/CosinusTransformationNode.js"></script>
+    <script src="js/process graph/process graph nodes/unary/transformations/CosinusBackTransformationNode.js"></script>
 
     <script src="js/process graph/process graph nodes/unary/other/CloneNode.js"></script>
 
@@ -49,6 +53,7 @@
     <script src="js/parsers/ImageToColorMapParser.js"></script>
     <script src="js/parsers/ColorMapToImageParser.js"></script>
 
+    <script src="js/operands/Vector.js"></script>
     <script src="js/operands/Color.js"></script>
     <script src="js/operands/ColorMap.js"></script>
     <script src="js/operands/RGBColor.js"></script>
@@ -57,11 +62,15 @@
 
     <script src="js/operators/filters/linear/LinearFilter.js"></script>
     <script src="js/operators/filters/linear/FilterMask.js"></script>
-    <script src="js/operators/filters/linear/SobelXFilter.js"></script>
-    <script src="js/operators/filters/linear/SobelYFilter.js"></script>
-    <script src="js/operators/filters/linear/BoxFilter.js"></script>
-    <script src="js/operators/filters/linear/GaussFilter.js"></script>
-    <script src="js/operators/filters/linear/LaplacianOfGaussianFilter.js"></script>
+
+    <script src="js/operators/filters/linear/derivative/SimpleDerivativeXFilter.js"></script>
+    <script src="js/operators/filters/linear/derivative/SimpleDerivativeYFilter.js"></script>
+    <script src="js/operators/filters/linear/derivative/SobelXFilter.js"></script>
+    <script src="js/operators/filters/linear/derivative/SobelYFilter.js"></script>
+    <script src="js/operators/filters/linear/derivative/LaplacianOfGaussianFilter.js"></script>
+
+    <script src="js/operators/filters/linear/blurring/BoxFilter.js"></script>
+    <script src="js/operators/filters/linear/blurring/GaussFilter.js"></script>
 
     <script src="js/operators/filters/morphologic/MorphologicFilter.js"></script>
     <script src="js/operators/filters/morphologic/StructuringElement.js"></script>
@@ -70,12 +79,17 @@
 
     <script src="js/operators/filters/other/InversionFilter.js"></script>
 
+    <script src="js/operators/transformations/CosinusTransformation.js"></script>
+    <script src="js/operators/transformations/CosinusBackTransformation.js"></script>
+    <script src="js/operators/transformations/FourierTransformation.js"></script>
+
     <script src="js/operators/other/Addition.js"></script>
     <script src="js/operators/other/Subtraction.js"></script>
 
     <!-- 1.2.1 load view model stuff -->
     <script src="js/presentation/view model/Vector2d.js"></script>
     <script src="js/presentation/view model/ProcessGraphNodeViewDecorator.js"></script>
+    <script src="js/presentation/view model/ProcessGraphNodeKathegory.js"></script>
 
     <!-- 1.3.1 Load Mocks for Testing with Jasmine -->
     <script src="spec/mocks/ZeroInOneOutNode.js"></script>

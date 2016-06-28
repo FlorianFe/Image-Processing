@@ -51,13 +51,27 @@ declare var $ : any;
             <h4 class="modal-title">Neuen Knoten hinzufügen</h4>
             <br><br>
             <div class="input-field">
-              <select id="node-class-selection">
-                <option *ngFor="#nodeClass of availableNodeClassList; #index = index"
+              <select id="node-kathegory-selection">
+                <option *ngFor="#nodeKathegory of availableNodeKathegoryList; #index = index"
                   [attr.value]="index">
-                  {{nodeClass.name}}
+                  {{nodeKathegory.name}}
                 </option>
               </select>
               <label>Kathegorie</label>
+            </div>
+
+            <br>
+
+            <div class="input-field" *ngFor="#nodeKathegory of availableNodeKathegoryList; #index = index">
+              <div [hidden]="!isKathegorySelected(index)">
+                <select id="node-class-selection-{{index}}">
+                  <option *ngFor="#nodeClass of availableNodeKathegoryList[index].nodeClasses; #index2 = index"
+                    [attr.value]="index2">
+                    {{nodeClass.name}}
+                  </option>
+                </select>
+                <label>Knoten</label>
+              </div>
             </div>
 
             <div class="modal-footer">
@@ -78,12 +92,12 @@ export class ProcessGraphComponent
   private jasmineOpened;
   private displayModeSelected;
 
-  private availableNodeClassList;
+  private availableNodeKathegoryList;
 
   constructor()
   {
     this.updateEvent = new EventEmitter();
-    this.availableNodeClassList = this.setupAvailableNodeClassList();
+    this.availableNodeKathegoryList = this.setupAvailableNodeKathegoryList();
     this.processGraph = new ProcessGraph();
 
     this.jasmineOpened = false;
@@ -103,29 +117,59 @@ export class ProcessGraphComponent
     $('select').material_select();
   }
 
-  private setupAvailableNodeClassList()
+  private setupAvailableNodeKathegoryList()
   {
-    let classes = [];
+    let kathegories = [];
 
-    classes.push(BoxFilterNode);
-    classes.push(LaplacianOfGaussianNode);
-    classes.push(SobelYFilterNode);
+    let blurringKathegory = new ProcessGraphNodeKathegory("Weichzeichnungsfilter");
+    blurringKathegory.addNodeClass(BoxFilterNode);
+    kathegories.push(blurringKathegory);
 
-    classes.push(DilationNode);
-    classes.push(ErosionNode);
+    let derivativeKathegory = new ProcessGraphNodeKathegory("Ableitungsfilter");
+    derivativeKathegory.addNodeClass(SobelYFilterNode);
+    derivativeKathegory.addNodeClass(LaplacianOfGaussianNode);
+    kathegories.push(derivativeKathegory);
 
-    classes.push(AdditionNode);
-    classes.push(SubtractionNode);
+    let morphologicKathegory = new ProcessGraphNodeKathegory("Morphologische Filter");
+    morphologicKathegory.addNodeClass(DilationNode);
+    morphologicKathegory.addNodeClass(ErosionNode);
+    kathegories.push(morphologicKathegory);
 
-    classes.push(CloneNode);
+    let transformationsKathegory = new ProcessGraphNodeKathegory("Transformationen");
+    transformationsKathegory.addNodeClass(CosinusTransformationNode);
+    transformationsKathegory.addNodeClass(CosinusBackTransformationNode);
+    kathegories.push(transformationsKathegory);
 
-    return classes;
+    let othersKathegory = new ProcessGraphNodeKathegory("Sonstiges");
+    othersKathegory.addNodeClass(CloneNode);
+    othersKathegory.addNodeClass(AdditionNode);
+    othersKathegory.addNodeClass(SubtractionNode);
+    kathegories.push(othersKathegory);
+
+    return kathegories;
+  }
+
+  private getSelectedNodeKathegory()
+  {
+    let kathegoryIndex = parseInt($('#node-kathegory-selection').val());
+    kathegoryIndex = (kathegoryIndex) ? kathegoryIndex : 0;
+    console.log(kathegoryIndex, this.availableNodeKathegoryList);
+    return this.availableNodeKathegoryList[kathegoryIndex];
+  }
+
+  isKathegorySelected(index)
+  {
+    return (index === parseInt($('#node-kathegory-selection').val()));
   }
 
   addNode()
   {
-    let classIndex = parseInt($('#node-class-selection').val());
-    let nodeClass = this.availableNodeClassList[classIndex];
+    let kathegoryIndex = parseInt($('#node-kathegory-selection').val());
+    kathegoryIndex = (kathegoryIndex) ? kathegoryIndex : 0;
+    let classIndex = parseInt($('#node-class-selection-' + kathegoryIndex).val());
+    classIndex = (classIndex) ? classIndex : 0;
+
+    let nodeClass = this.availableNodeKathegoryList[kathegoryIndex].getNodeClass(classIndex);
     this.processGraph.addNode(new ProcessGraphNodeViewDecorator(new nodeClass()));
 
     $('#adding-node-modal').closeModal();

@@ -1,11 +1,9 @@
 
-class CosinusTransformation
+class CosinusBackTransformation
 {
-  private quality : number;
-
-  constructor(quality)
+  constructor()
   {
-    this.quality = quality;
+
   }
 
   private calcBaseVectors(rowLength : number)
@@ -16,13 +14,13 @@ class CosinusTransformation
       let vector = new Vector(rowLength);
       for(let j=0; j<rowLength; j++)
       {
-        let alpha = (i==0) ? Math.sqrt(1/rowLength) : Math.sqrt(2/rowLength);
-        vector.setValue(j, alpha * Math.cos(((0.5 + j)*i*Math.PI)/rowLength));
+        let alpha = (j==0) ? Math.sqrt(1/rowLength) : Math.sqrt(2/rowLength);
+        vector.setValue(j, alpha * Math.cos(((0.5 + i)*j*Math.PI)/rowLength));
       }
       vectors.push(vector);
     }
 
-    console.log("vec", vectors);
+    console.log(vectors);
 
     return vectors;
   }
@@ -36,21 +34,10 @@ class CosinusTransformation
     {
       for(let x=0; x<sourceColorMap.getWidth(); x++)
       {
-        let color = null;
-        if(x < sourceColorMap.getWidth() * this.quality)
-        {
-          color = this.multiplyBaseVectorWithSourcePixelValue(baseVectors[x], sourceColorMap, y);
-        }
-        else
-        {
-          color = new RGBColor(0, 0, 0);
-        }
-
+        let color = this.multiplyBaseVectorWithSourcePixelValue(baseVectors[x], sourceColorMap, y);
         resultColorMap.setPixel(x, y, color);
       }
     }
-
-    console.log(resultColorMap);
 
     return resultColorMap;
   }
