@@ -74,6 +74,8 @@ declare var $ : any;
               </div>
             </div>
 
+            <br>
+
             <div class="modal-footer">
               <a href="#" (click)="closeModal()" class="modal-action modal-close waves-effect waves-green btn-flat">Schließen</a>
               <button type="button" class="btn btn-success" (click)="addNode()">Hinzufügen</button>
@@ -115,6 +117,24 @@ export class ProcessGraphComponent
   ngAfterViewInit()
   {
     $('select').material_select();
+
+    let nodes = this.processGraph.getNodes();
+    let self = this;
+
+    $('body').keyup(function()
+    {
+      for(let i=0; i<nodes.length; i++)
+      {
+        let node = self.processGraph.getNode(i);
+        node.setDisplayPosition(node.getDisplayPosition().x, node.getDisplayPosition().y + 20);
+        $('body').click();
+      }
+
+      $('.draggable').each(function(index, element)
+      {
+        $(element).css('top', parseInt($(element).css('top')) + 20 + 'px');
+      });
+    });
   }
 
   private setupAvailableNodeKathegoryList()
@@ -142,6 +162,8 @@ export class ProcessGraphComponent
 
     let othersKathegory = new ProcessGraphNodeKathegory("Sonstiges");
     othersKathegory.addNodeClass(CloneNode);
+    othersKathegory.addNodeClass(InversionNode);
+    othersKathegory.addNodeClass(NormalizationNode);
     othersKathegory.addNodeClass(AdditionNode);
     othersKathegory.addNodeClass(SubtractionNode);
     kathegories.push(othersKathegory);

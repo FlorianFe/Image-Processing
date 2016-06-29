@@ -16,3 +16,8 @@ body
 {
   display: none;
 }
+
+.draggable > span
+{
+  font-size: 6px;
+}

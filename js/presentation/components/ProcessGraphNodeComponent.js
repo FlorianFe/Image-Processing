@@ -58,6 +58,19 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         $('.materialboxed').materialbox();
                     });
                 };
+                ProcessGraphNodeComponent.prototype.onFileSelected = function (event) {
+                    var image = new Image();
+                    var self = this;
+                    var input = event.target;
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            image.src = e.target['result'];
+                            (self.processGraphNode.processGraphNode).setImage(image);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                };
                 __decorate([
                     core_2.Input("process-graph-node"), 
                     __metadata('design:type', Object)
@@ -71,7 +84,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         selector: 'process-graph-node',
                         directives: [],
                         providers: [],
-                        template: "\n      <style>\n\n        .card\n        {\n          left: 0px;\n          top: 60px;\n          margin: 40px;\n          width: 200px;\n          height: 200px;\n          border-color: black;\n          text-align: center;\n          float: left;\n        }\n\n      </style>\n\n      <div class=\"card draggable\">\n        <div *ngIf=\"processGraphNode.isFinished()\">\n          <img width=\"200\" height=\"125\" class=\"materialboxed\" [attr.src]=\"processGraphNode.displayImage.src\" (load)=\"imageLoaded()\">\n        </div>\n\n        <div *ngIf=\"!processGraphNode.isFinished()\">\n          <img width=\"200\" height=\"125\">\n        </div>\n\n        <div class=\"card-content\">\n          <b>{{processGraphNode.name}}</b>\n        </div>\n      </div>\n    "
+                        template: "\n      <style>\n\n        .card\n        {\n          left: 0px;\n          top: 60px;\n          margin: 40px;\n          width: 200px;\n          height: 200px;\n          border-color: black;\n          text-align: center;\n          float: left;\n        }\n\n      </style>\n\n      <div class=\"card draggable\">\n        <div *ngIf=\"processGraphNode.isFinished()\">\n          <img width=\"200\" height=\"125\" class=\"materialboxed\" [attr.src]=\"processGraphNode.displayImage.src\" (load)=\"imageLoaded()\">\n        </div>\n\n        <div class=\"card-content\">\n          <b>{{processGraphNode.name}}</b>\n          <span>\n            <div [hidden]=\"!(processGraphNode.name === 'Image Loading' && !processGraphNode.isFinished())\" class=\"form-input\">\n              <div class=\"file-field input-field\">\n                <input type=\"file\" (change)=\"onFileSelected($event)\">\n                <div class=\"file-path-wrapper\">\n                  <input class=\"file-path\" type=\"text\">\n                </div>\n              </div>\n            </div>\n          </span>\n        </div>\n      </div>\n    "
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], ProcessGraphNodeComponent);

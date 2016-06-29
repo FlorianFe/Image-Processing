@@ -29,12 +29,18 @@ declare var $ : any;
           <img width="200" height="125" class="materialboxed" [attr.src]="processGraphNode.displayImage.src" (load)="imageLoaded()">
         </div>
 
-        <div *ngIf="!processGraphNode.isFinished()">
-          <img width="200" height="125">
-        </div>
-
         <div class="card-content">
           <b>{{processGraphNode.name}}</b>
+          <span>
+            <div [hidden]="!(processGraphNode.name === 'Image Loading' && !processGraphNode.isFinished())" class="form-input">
+              <div class="file-field input-field">
+                <input type="file" (change)="onFileSelected($event)">
+                <div class="file-path-wrapper">
+                  <input class="file-path" type="text">
+                </div>
+              </div>
+            </div>
+          </span>
         </div>
       </div>
     `
@@ -101,5 +107,26 @@ export class ProcessGraphNodeComponent
     {
       $('.materialboxed').materialbox();
     });
+  }
+
+  onFileSelected(event)
+  {
+    let image = new Image();
+    let self = this;
+
+    let input = event.target;
+
+    if (input.files && input.files[0])
+    {
+        var reader = new FileReader();
+
+        reader.onload = function (e)
+        {
+            image.src = e.target['result'];
+            (<ImageLoadingNode>(self.processGraphNode.processGraphNode)).setImage(image);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
   }
 }

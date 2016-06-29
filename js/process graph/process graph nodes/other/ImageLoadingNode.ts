@@ -9,6 +9,11 @@ class ImageLoadingNode extends ProcessGraphNode
     this.resultColorMap = ImageToColorMapParser.parse(image);
   }
 
+  setImage(image)
+  {
+    this.resultColorMap = ImageToColorMapParser.parse(image);
+  }
+
   protected calculate(values : Array<any>) : Array<any>
   {
     return [this.resultColorMap];

@@ -1,5 +1,5 @@
 
-class InversionFilter implements Filter
+class Inversion
 {
   constructor()
   {

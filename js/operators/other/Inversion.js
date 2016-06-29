@@ -1,7 +1,7 @@
-var InversionFilter = (function () {
-    function InversionFilter() {
+var Inversion = (function () {
+    function Inversion() {
     }
-    InversionFilter.prototype.convolute = function (sourceColorMap) {
+    Inversion.prototype.convolute = function (sourceColorMap) {
         var sourceWidth = sourceColorMap.getWidth();
         var sourceHeight = sourceColorMap.getHeight();
         var resultColorMap = new ColorMap(sourceWidth, sourceHeight);
@@ -14,9 +14,9 @@ var InversionFilter = (function () {
         }
         return resultColorMap;
     };
-    InversionFilter.prototype.convoluteForPixel = function (x, y, colorMap) {
+    Inversion.prototype.convoluteForPixel = function (x, y, colorMap) {
         return (colorMap.getPixel(x, y).invert());
     };
-    return InversionFilter;
+    return Inversion;
 }());
-//# sourceMappingURL=InversionFilter.js.map
+//# sourceMappingURL=Inversion.js.map

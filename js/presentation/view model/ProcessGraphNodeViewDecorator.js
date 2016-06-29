@@ -22,7 +22,7 @@ var ProcessGraphNodeViewDecorator = (function (_super) {
         this.displayPosition = { x: x, y: y };
     };
     ProcessGraphNodeViewDecorator.prototype.getDisplayPosition = function () {
-        return this.displayPosition();
+        return this.displayPosition;
     };
     return ProcessGraphNodeViewDecorator;
 }(ProcessGraphNode));

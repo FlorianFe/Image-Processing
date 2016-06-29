@@ -33,6 +33,6 @@ class ProcessGraphNodeViewDecorator extends ProcessGraphNode
 
   getDisplayPosition()
   {
-    return this.displayPosition();
+    return this.displayPosition;
   }
 }
