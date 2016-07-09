@@ -118,15 +118,15 @@ export class ProcessGraphNodeComponent
 
     if (input.files && input.files[0])
     {
-        var reader = new FileReader();
+      var reader = new FileReader();
 
-        reader.onload = function (e)
-        {
-            image.src = e.target['result'];
-            (<ImageLoadingNode>(self.processGraphNode.processGraphNode)).setImage(image);
-        }
+      reader.onload = function(e)
+      {
+        image.src = e.target['result'];
+        (<ImageLoadingNode>(self.processGraphNode.processGraphNode)).setImage(image);
+      }
 
-        reader.readAsDataURL(input.files[0]);
+      reader.readAsDataURL(input.files[0]);
     }
   }
 }
