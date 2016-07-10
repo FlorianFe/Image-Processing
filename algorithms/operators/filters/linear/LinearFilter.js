@@ -16,13 +16,14 @@ var LinearFilter = (function () {
         return resultColorMap;
     };
     LinearFilter.prototype.convoluteForPixel = function (x, y, colorMap) {
+        console.assert(x % 1 === 0, "x must be an integer");
+        console.assert(y % 1 === 0, "y must be an integer");
         var startIndexX = x + ((this.filterMask.getHeight() - 1) / 2);
         var startIndexY = y + ((this.filterMask.getWidth() - 1) / 2);
         var result = new RGBColor(0, 0, 0);
         for (var x_1 = 0; x_1 < this.filterMask.getHeight(); x_1++) {
             for (var y_1 = 0; y_1 < this.filterMask.getWidth(); y_1++) {
                 var sourcePixel = colorMap.getPixel(startIndexX - x_1, startIndexY - y_1);
-                // Maske ist andersrum definiert, deshalb x und y hier vertauscht
                 result = result.add(sourcePixel.multiply(this.filterMask.getValueOnPos(y_1, x_1)));
             }
         }

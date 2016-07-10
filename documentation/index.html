@@ -1,0 +1,153 @@
+<html>
+  <head>
+    <title>Bildverarbeitung</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body>
+
+  <main>
+    <div class="container">
+      <div class="row">
+        <div id="content"></div>
+      </div>
+    </div>
+  </main>
+
+    <ul id="slide-out" class="side-nav fixed">
+      <li class="no-padding">
+       <ul class="collapsible collapsible-accordion">
+        <li><a class="nav-item light-blue white-text" id="nav-item-introduction" href="#!introduction">Einleitung</a></li>
+        <li><a class="nav-item" id="nav-item-linear-filter" href="#!linear-filter">Lineare Filter</a></li>
+        <li><a class="nav-item" id="nav-item-morphologic-filter" href="#!morphologic-filter">Morphologische Filter</a></li>
+        <li><a class="nav-item" id="nav-item-transformations" href="#!transformations">Transformationen</a></li>
+      </ul>
+    </ul>
+
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
+
+    <script src="../algorithms/parsers/ImageToColorMapParser.js"></script>
+    <script src="../algorithms/parsers/ColorMapToImageParser.js"></script>
+
+    <script src="../algorithms/operands/Color.js"></script>
+    <script src="../algorithms/operands/RGBColor.js"></script>
+    <script src="../algorithms/operands/ColorMap.js"></script>
+    <script src="../algorithms/operands/Color.js"></script>
+
+    <script src="../algorithms/operators/filters/linear/FilterMask.js"></script>
+    <script src="../algorithms/operators/filters/linear/LinearFilter.js"></script>
+
+    <script src="js/CodeToHTMLParser.js"></script>
+
+    <script>
+
+    function loadImageFromFileInput(event, callback)
+    {
+      let image = new Image();
+      let self = this;
+
+      let input = event.target;
+
+      if (input.files && input.files[0])
+      {
+        var reader = new FileReader();
+
+        reader.onload = function(e)
+        {
+          image.src = e.target['result'];
+          callback(image);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function convolute(editor, sourceColorMap)
+    {
+      eval(editor.getValue());
+      let resultImage = ColorMapToImageParser.parse(resultColorMap);
+      $('#result-image').attr("src", resultImage.src);
+    }
+
+    function loadChapter(url)
+    {
+      $('#content').load(url, function()
+      {
+        var sourceColorMap = new ColorMap(1, 1);
+
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/textmate");
+        editor.getSession().setMode("ace/mode/javascript");
+
+        $('#source-image').on('load', function()
+        {
+          sourceColorMap = ImageToColorMapParser.parse($('#source-image').get(0));
+        });
+
+        $('.code-box').each(function(index, element)
+        {
+          $.get($(element).attr('data'), function(data)
+          {
+            $(element).html((new CodeToHTMLParser()).parse(data));
+          });
+        });
+
+        $('#image-file-input').on('change', function(event)
+        {
+          loadImageFromFileInput(event, function(image)
+          {
+            sourceColorMap = ImageToColorMapParser.parse(image);
+            $('#source-image').attr('src', image.src);
+            convolute(editor, sourceColorMap);
+          });
+        });
+
+        $('.collapsible').collapsible(
+        {
+          accordion : false
+        });
+
+        $('#btn-calculate').click(function()
+        {
+          convolute(editor, sourceColorMap);
+        });
+
+        $(document).ready(function()
+        {
+          $('.materialboxed').materialbox();
+        });
+      });
+    }
+
+    $(document).ready(function()
+    {
+      $('.button-collapse').sideNav();
+      $('.collapsible').collapsible();
+
+      $('.nav-item').click(function()
+      {
+        $('.nav-item').removeClass("light-blue white-text");
+        $(this).addClass("light-blue white-text");
+      });
+
+      $('#nav-item-introduction').click(function()
+      {
+        loadChapter('chapters/introduction.html');
+      });
+
+      $('#nav-item-linear-filter').click(function()
+      {
+        loadChapter('chapters/linear-filter.html');
+      });
+
+      loadChapter('chapters/introduction.html')
+    });
+
+    </script>
+
+  </body>
+</html>

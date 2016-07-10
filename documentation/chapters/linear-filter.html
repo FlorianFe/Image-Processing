@@ -1,0 +1,152 @@
+<h3 class="light-blue-text">Lineare Filter</h3>
+<p>
+  Die zweidimensionale lineare Filterung findet oft Anwendung bei Aufgaben wie der Weichzeichnung oder der Kantenextraktion.
+  <br><br>
+  Der jeweilige Filter wird über seine Filtermaske identifiziert, einer Matrix aus Wichtungen und einer Kennzeichnung der Koordinate (0|0)
+  bei der zweidimensionalen linearen Filterung.
+  <br>
+  Als Eingabe nimmt die zweidimensionale lineare Filterung eine Matrix aus Signalwerten entgegen.
+  In der Bildverarbeitung entspricht dies einer Matrix aus Pixelwerten, die ein Bild beschreiben.
+  <br><br>
+  Bei der Anwendung des Filters wird nun zuerst die Filtermaske punktgespiegelt. Danach wird für jeden Pixel eine Faltung vorgenommen.
+  Hierzu wird die Koordinate des betrachteten Pixels betrachtet [...]
+</p>
+
+<ul class="collapsible" data-collapsible="accordion">
+  <li>
+    <div class="collapsible-header"><i class="material-icons">code</i>Code - Filtermaske</div>
+    <div class="collapsible-body"><div class="code-box" data="../algorithms/operators/filters/linear/FilterMask.ts"></div></div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">code</i>Code - Linearer Filter</div>
+    <div class="collapsible-body"><div class="code-box" data="../algorithms/operators/filters/linear/LinearFilter.ts"></div></div>
+  </li>
+</ul>
+
+<br>
+
+<h4 class="light-blue-text">Weichzeichnungsfilter</h4>
+<p>
+  Als Weichzeichnung bezeichnet man die bewusste Veränderung eines Bildes bei dem die Zeichnung oder der Kontrast verringert wird. Es dient
+  der Entfernung von störendem Rauschen, wie etwa Salz- oder Pfefferrauschen. Häufig erleidet das Bild nach der Weichzeichnung einen Verlust
+  des Schärfeeindrucks.
+
+  <h5 class="light-blue-text">Box Filter</h5>
+  <p>
+    Der Box Filter bildet den arithmetischen Mittelwert der Umgebung des aktuell untersuchten Pixels und ist damit ein Weichzeichnungsfilter.
+  </p>
+
+  <ul class="collapsible" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">code</i>Code - Box Filter</div>
+      <div class="collapsible-body"><div class="code-box" data="../algorithms/operators/filters/linear/blurring/BoxFilter.ts"></div></div>
+    </li>
+  </ul>
+
+  <br>
+
+  <h5 class="light-blue-text">Gauß Filter</h5>
+  <p>
+    Der Gauß-Filter ist ebenfalls ein Weichzeichnungsfilter und weist ein gutes Glättungsverhalten auf.
+    Er orientiert sich an der gaußschen Glockenkurve.
+  </p>
+
+  <ul class="collapsible" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">code</i>Code - Gauß Filter</div>
+      <div class="collapsible-body"><div class="code-box" data="../algorithms/operators/filters/linear/blurring/GaussFilter.ts"></div></div>
+    </li>
+  </ul>
+</p>
+
+<br>
+
+<h4 class="light-blue-text">Filter zur Kantendetektion</h4>
+<p>
+  Bei der Kantendetektion wird versucht das Bild in flächige Bereiche zu unterteilen.
+
+  <h5 class="light-blue-text">Einfacher Ableitungsfilter</h5>
+  <p>
+    Der einfache Ableitungsfilter betrachtet den kommenden und den letzten Pixel, misst die Änderung zwischen ihnen und stellt sie als
+    neuen Pixelwert dar.
+  </p>
+
+  <ul class="collapsible" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">code</i>Code - Einfacher Ableitungsfilter in X Richtung</div>
+      <div class="collapsible-body"><div class="code-box" data="../algorithms/operators/filters/linear/derivative/SimpleDerivativeXFilter.ts"></div></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">code</i>Code - Einfacher Ableitungsfilter in Y Richtung</div>
+      <div class="collapsible-body"><div class="code-box" data="../algorithms/operators/filters/linear/derivative/SimpleDerivativeYFilter.ts"></div></div>
+    </li>
+  </ul>
+</p>
+
+<br><br>
+
+<div class="do-it-yourself-container z-depth-1">
+  <h4 class="light-blue-text">Probier es selbst aus</h4>
+
+  <div id="editor">
+    var mask = new FilterMask(
+    [
+        [1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1]
+    ]);
+    mask.normalize();
+
+    var linearFilter = new LinearFilter(mask);
+    var resultColorMap = linearFilter.convolute(sourceColorMap);
+  </div>
+
+  <br>
+
+  <form action="#">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>Quellbild</span>
+        <input id="image-file-input" type="file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+  </form>
+
+  <br>
+
+  <div class="row">
+    <div class="col m6 center-align">
+      <div class="card">
+        <div class="card-image">
+          <img class="materialboxed" id="source-image" src="img/char-a.png">
+          <span class="card-title">Quellbild</span>
+        </div>
+        <div class="card-content">
+          <h4>Quellbild</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col m6 center-align">
+      <div class="card">
+        <div class="card-image">
+          <img class="materialboxed" id="result-image" src="img/black.png">
+          <span class="card-title">Ergebnisbild</span>
+        </div>
+        <div class="card-content">
+            <h4>Ergebnisbild</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="btn right">
+      <span id="btn-calculate">Berechnen</span>
+    </div>
+  </div>
+</div>

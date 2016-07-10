@@ -28,8 +28,11 @@ class LinearFilter implements Filter
     return resultColorMap;
   }
 
-  private convoluteForPixel(x, y, colorMap) : Color
+  private convoluteForPixel(x : number, y : number, colorMap : ColorMap) : Color
   {
+    console.assert(x % 1 === 0, "x must be an integer");
+    console.assert(y % 1 === 0, "y must be an integer");
+
     let startIndexX = x + ((this.filterMask.getHeight() - 1) / 2);
     let startIndexY = y + ((this.filterMask.getWidth() - 1) / 2);
 
@@ -40,8 +43,7 @@ class LinearFilter implements Filter
       for(let y=0; y<this.filterMask.getWidth(); y++)
       {
         let sourcePixel = colorMap.getPixel(startIndexX - x, startIndexY - y);
-        // Maske ist andersrum definiert, deshalb x und y hier vertauscht
-        result = result.add(sourcePixel.multiply(this.filterMask.getValueOnPos(y, x)));
+        result = result.add(<RGBColor>sourcePixel.multiply(this.filterMask.getValueOnPos(y, x)));
       }
     }
 
