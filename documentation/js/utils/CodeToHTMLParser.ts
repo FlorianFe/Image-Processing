@@ -1,4 +1,4 @@
-class CodeToHTMLParser
+export class CodeToHTMLParser
 {
   parse(code : string)
   {

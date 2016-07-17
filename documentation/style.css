@@ -23,6 +23,7 @@ p
 
 #editor
 {
+  position: relative;
   width: 100%;
   height: 400px;
   font-size: 22px;
@@ -32,4 +33,9 @@ p
 {
   border-radius: 15px;
   padding: 25px;
+}
+
+.toast
+{
+  background-color: #FF0000 !important;
 }
